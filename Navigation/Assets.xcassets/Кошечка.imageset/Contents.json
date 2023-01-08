@@ -1,0 +1,21 @@
+{
+  "images" : [
+    {
+      "filename" : "1625780577_20-phonoteka-org-p-dzherri-art-krasivo-21.jpg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

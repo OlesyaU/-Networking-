@@ -183,13 +183,12 @@
 				76EA95F82856488600A9B5F8 /* Post */,
 				76EA95FC28564AB900A9B5F8 /* UserService */,
 				76EA95F92856489800A9B5F8 /* Helpers + Checker + UI */,
+				76AFBF60297027A700D0DC9C /* AppConfiguration + NetworkService */,
 				7607E4C227D9FAB1005D58DF /* AppDelegate.swift */,
 				7607E4C427D9FAB1005D58DF /* SceneDelegate.swift */,
 				7607E4CB27D9FAB3005D58DF /* Assets.xcassets */,
 				7607E4CD27D9FAB3005D58DF /* LaunchScreen.storyboard */,
 				7607E4D027D9FAB3005D58DF /* Info.plist */,
-				76819A80296AC27D00ACA674 /* NetworkService.swift */,
-				76819A82296AC2FC00ACA674 /* AppConfiguration.swift */,
 			);
 			path = Navigation;
 			sourceTree = "<group>";
@@ -219,6 +218,15 @@
 				76FBF75B2870AEEC003D621F /* Controller */,
 			);
 			path = Profile;
+			sourceTree = "<group>";
+		};
+		76AFBF60297027A700D0DC9C /* AppConfiguration + NetworkService */ = {
+			isa = PBXGroup;
+			children = (
+				76819A80296AC27D00ACA674 /* NetworkService.swift */,
+				76819A82296AC2FC00ACA674 /* AppConfiguration.swift */,
+			);
+			path = "AppConfiguration + NetworkService";
 			sourceTree = "<group>";
 		};
 		76C31ED328E2F7EA0057B417 /* Coordinators */ = {

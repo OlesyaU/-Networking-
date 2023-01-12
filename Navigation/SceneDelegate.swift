@@ -18,16 +18,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let nav =  UINavigationController()
 
-        if !AppConfiguration.allCases.isEmpty {
-         appConfiguration = AppConfiguration.allCases.randomElement()!
-           print("from Scene if not empty \(appConfiguration.debugDescription)")
-
-        }
-
-        let networkService = NetworkService.request(for: appConfiguration!)
         mainCoordinator = MainCoordinator(controller: nav)
         mainCoordinator?.setUp()
         setupNavigationBarAppearance()
+        networkServiceStart()
         window = UIWindow(windowScene: windowScene)
         window?.rootViewController = nav
         window?.makeKeyAndVisible()
@@ -39,5 +33,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         navigationBarAppearance.backgroundColor = .secondarySystemBackground
         UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
     }
+    private func networkServiceStart(){
+        if !AppConfiguration.allCases.isEmpty {
+         appConfiguration = AppConfiguration.allCases.randomElement()!
+            let _: () = NetworkService.request(for: appConfiguration!)
+//           print("from Scene if not empty \(appConfiguration.debugDescription)")
+            print("Start with \(#function)")
+        }
+}
 }
 

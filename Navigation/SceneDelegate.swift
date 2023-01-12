@@ -11,12 +11,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
     private var mainCoordinator: MainCoordinator?
-    
+    private var appConfiguration: AppConfiguration?
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let nav =  UINavigationController()
+
+        if !AppConfiguration.allCases.isEmpty {
+         appConfiguration = AppConfiguration.allCases.randomElement()!
+           print("from Scene if not empty \(appConfiguration.debugDescription)")
+
+        }
+
+        let networkService = NetworkService.request(for: appConfiguration!)
         mainCoordinator = MainCoordinator(controller: nav)
         mainCoordinator?.setUp()
         setupNavigationBarAppearance()

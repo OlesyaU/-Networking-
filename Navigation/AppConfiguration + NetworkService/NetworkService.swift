@@ -22,6 +22,11 @@ struct NetworkService {
                 urlA = url
                 print("url from switch Network  config3 - \(urlA)")
         }
+        
+//        static func urlSession(stringURL: String) {
+//               if let url = URL(string: stringURL) {
+//                   let task = URLSession.shared.dataTask(with: url) { data, response, error in
+//       // можно так - чтобы проще было(в AppConfiguration сделать rawValue и от него уже "плясать" при сборке проекта)
        
         let session = URLSession(configuration: .default)
         let request = URLRequest(url: urlA)
@@ -30,6 +35,7 @@ struct NetworkService {
                 print(error.localizedDescription)
                 return
             }
+           
             
             let statusCode = (responce as! HTTPURLResponse).statusCode
             let header = (responce as! HTTPURLResponse).allHeaderFields

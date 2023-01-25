@@ -18,11 +18,32 @@ class InfoViewController: UIViewController {
         return button
     }()
     
+    lazy var jsonTitleLabel: UILabel = {
+        let label = UILabel(frame: CGRect(origin: CGPoint(x: 20, y: 200), size: CGSize(width: 250, height: 150)))
+        label.numberOfLines = 0
+        label.backgroundColor = .lightGray
+        
+        return label
+        
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        layout()
+    }
+    
+    
+    
+    
+    private func layout(){
         view.backgroundColor = .systemYellow
         view.addSubview(goToAlertButton)
+        view.addSubview(jsonTitleLabel)
+        
+        
+        
     }
+    
     
     @objc private func buttonTap(_sender: UIButton) {
         let alert = UIAlertController(title: "OOPS", message: "Something wrong!Run!", preferredStyle: .actionSheet)

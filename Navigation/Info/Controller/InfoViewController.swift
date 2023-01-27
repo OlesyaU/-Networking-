@@ -24,9 +24,16 @@ class InfoViewController: UIViewController {
         label.backgroundColor = .white
         label.textColor = .black
         return label
-        
     }()
     
+    lazy var planetLabel: UILabel = {
+        let label = UILabel(frame: CGRect(origin: CGPoint(x: 20, y: 200), size: CGSize(width: 300, height: 50)))
+        label.numberOfLines = 0
+        label.backgroundColor = .white
+        label.textColor = .black
+        return label
+        
+    }()
     override func viewDidLoad() {
         super.viewDidLoad()
         layout()
@@ -37,15 +44,22 @@ class InfoViewController: UIViewController {
         super.viewWillAppear(animated)
         ModelInfo().getJsonInfo({ [weak self] text in
             DispatchQueue.main.async {
-                self?.jsonTitleLabel.text = text
+                self?.jsonTitleLabel.text = "Title text is: \n \"\(String(describing: text!.capitalized))\""
             }
         })
+        
+        ModelInfo().getPlanetaData { [weak self] period in
+            DispatchQueue.main.async {
+                self?.planetLabel.text = "Planet orbital period is \(period!)"
+            }
+        }
     }
     
     private func layout(){
         view.backgroundColor = .systemYellow
         view.addSubview(goToAlertButton)
         view.addSubview(jsonTitleLabel)
+        view.addSubview(planetLabel)
     }
     
     @objc private func buttonTap(_sender: UIButton) {

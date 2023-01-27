@@ -274,6 +274,22 @@
 			path = ProfileCoordinator;
 			sourceTree = "<group>";
 		};
+		76C50B8729837E4400C2DAC3 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				76C50B852981E27400C2DAC3 /* InfoJSONModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		76C50B8829837E5400C2DAC3 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				76CF876C27E0D4D90010F427 /* InfoViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
 		76D5373D280B43AE00A5578B /* Photos */ = {
 			isa = PBXGroup;
 			children = (
@@ -306,8 +322,8 @@
 		76EA95F5285646F200A9B5F8 /* Info */ = {
 			isa = PBXGroup;
 			children = (
-				76CF876C27E0D4D90010F427 /* InfoViewController.swift */,
-				76C50B852981E27400C2DAC3 /* InfoJSONModel.swift */,
+				76C50B8729837E4400C2DAC3 /* Model */,
+				76C50B8829837E5400C2DAC3 /* Controller */,
 			);
 			path = Info;
 			sourceTree = "<group>";

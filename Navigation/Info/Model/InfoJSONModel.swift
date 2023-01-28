@@ -13,7 +13,7 @@ import Foundation
  "title": "delectus aut autem",
  "completed": false
  */
-//для второго задания JSON
+//для второго  и третьего заданий JSON
 /*
  {
  "name": "Tatooine",
@@ -49,14 +49,20 @@ import Foundation
  "url": "https://swapi.dev/api/planets/1/"
  }
  */
+struct Resident: Decodable {
+    var name: String
+    var gender: String
+}
 
 struct Planeta: Decodable {
     var name: String
     var period: String
+//    var residents: [Resident]
     
     enum CodingKeys: String, CodingKey {
         case name
         case period = "orbital_period"
+//        case residents
     }
 }
 
@@ -129,15 +135,10 @@ struct ModelInfo {
                 completion?(nil)
                 return
             }
-            
+            print(data)
             do {
-                guard let answer =  try JSONDecoder().decode(Planeta?.self, from: data) else {
-                    completion?(nil)
-                    print(error)
-                    return
-                }
-                let period = answer.period
-                completion?(answer.period)
+                let answer =  try JSONDecoder().decode(Planeta.self, from: data)
+               completion?(answer.period)
             }
             catch {
                 print(error)
@@ -146,5 +147,61 @@ struct ModelInfo {
             }
         }
         task.resume()
+    }
+    
+    func getPlanetResidents(_ completion: (([Resident]?)-> Void)?) {
+       guard let url = URL(string: "https://swapi.dev/api/planets/1/") else {
+            print("проблема с урлом")
+            return
+        }
+        
+        let session = URLSession(configuration: .default)
+        let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 10)
+        let task = session.dataTask(with: request) { data, response, error in
+            if let error {
+                print(error.localizedDescription)
+                completion?(nil)
+                return
+            }
+            
+            let statusCode = (response as? HTTPURLResponse)?.statusCode
+            
+            if statusCode != 200 {
+                print("Status code isn't 200, statusCode \(String(describing: statusCode))")
+                completion?(nil)
+                return
+            }
+            
+            guard let data  else {
+                print("data - nil")
+                completion?(nil)
+                return
+            }
+            
+            do {
+
+                let answer = try JSONDecoder().decode(Planeta.self, from: data)
+                
+                var answerArray: [Resident] = []
+                
+//                for item in answer.residents {
+//                    answerArray.append(item)
+//                }
+                print(answerArray)
+                completion?(answerArray)
+             
+
+            }
+            catch {
+                completion?(nil)
+                print(error)
+            }
+        }
+        
+        //        не забываем резьюмить таску!
+        task.resume()
+        
+        
+        
     }
 }

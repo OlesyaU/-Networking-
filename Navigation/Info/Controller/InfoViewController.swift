@@ -11,15 +11,15 @@ class InfoViewController: UIViewController {
     
     lazy var goToAlertButton: CustomButton = {
         let button = CustomButton(title: "Push on me", background: .systemCyan, titleColor: .white)
-        button.frame = CGRect(origin: CGPoint(x: 100, y: 50), size: CGSize(width: 150, height: 30))
         button.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .bold)
-        //        button.translatesAutoresizingMaskIntoConstraints = false
+        button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(buttonTap(_sender:)), for: .touchUpInside)
         return button
     }()
     
     lazy var jsonTitleLabel: UILabel = {
-        let label = UILabel(frame: CGRect(origin: CGPoint(x: 20, y: 100), size: CGSize(width: 300, height: 100)))
+        let label = UILabel(frame: .zero)
+        label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.backgroundColor = .white
         label.textColor = .black
@@ -27,13 +27,22 @@ class InfoViewController: UIViewController {
     }()
     
     lazy var planetLabel: UILabel = {
-        let label = UILabel(frame: CGRect(origin: CGPoint(x: 20, y: 200), size: CGSize(width: 300, height: 50)))
+        let label = UILabel(frame: .zero)
+        label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.backgroundColor = .white
         label.textColor = .black
         return label
-        
     }()
+    
+    lazy var residentsTableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.backgroundColor = .gray
+        tableView.separatorStyle = .singleLineEtched
+        return tableView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         layout()
@@ -49,17 +58,37 @@ class InfoViewController: UIViewController {
         })
         
         ModelInfo().getPlanetaData { [weak self] period in
+            guard let period else {return}
             DispatchQueue.main.async {
-                self?.planetLabel.text = "Planet orbital period is \(period!)"
+                self?.planetLabel.text = "Planet orbital period is \(period)"
             }
         }
     }
     
-    private func layout(){
+    private func layout() {
         view.backgroundColor = .systemYellow
-        view.addSubview(goToAlertButton)
-        view.addSubview(jsonTitleLabel)
-        view.addSubview(planetLabel)
+        [goToAlertButton, jsonTitleLabel, planetLabel, residentsTableView].forEach({view.addSubview($0)})
+        NSLayoutConstraint.activate([
+            goToAlertButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 32),
+            goToAlertButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32),
+            goToAlertButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32),
+            goToAlertButton.heightAnchor.constraint(equalToConstant: 30),
+            
+            jsonTitleLabel.topAnchor.constraint(equalTo: goToAlertButton.bottomAnchor, constant: 16),
+            jsonTitleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            jsonTitleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            jsonTitleLabel.heightAnchor.constraint(equalToConstant: 100),
+            
+            planetLabel.topAnchor.constraint(equalTo: jsonTitleLabel.bottomAnchor, constant: 16),
+            planetLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            planetLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            planetLabel.heightAnchor.constraint(equalToConstant: 50),
+            
+            residentsTableView.topAnchor.constraint(equalTo: planetLabel.bottomAnchor, constant: 16),
+            residentsTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            residentsTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            residentsTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -8)
+        ])
     }
     
     @objc private func buttonTap(_sender: UIButton) {

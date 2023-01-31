@@ -9,7 +9,9 @@ import UIKit
 
 class InfoViewController: UIViewController {
     
-    lazy var goToAlertButton: CustomButton = {
+    private var residentsURL: [String] = []
+    
+    private lazy var goToAlertButton: CustomButton = {
         let button = CustomButton(title: "Push on me", background: .systemCyan, titleColor: .white)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -17,7 +19,7 @@ class InfoViewController: UIViewController {
         return button
     }()
     
-    lazy var jsonTitleLabel: UILabel = {
+    private lazy var jsonTitleLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
@@ -26,7 +28,7 @@ class InfoViewController: UIViewController {
         return label
     }()
     
-    lazy var planetLabel: UILabel = {
+    private  lazy var planetLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
@@ -35,16 +37,18 @@ class InfoViewController: UIViewController {
         return label
     }()
     
-    lazy var residentsTableView: UITableView = {
+    private lazy var residentsTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.backgroundColor = .gray
-        tableView.separatorStyle = .singleLineEtched
         return tableView
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        residentsTableView.dataSource = self
+        residentsTableView.dataSource = self
+        residentsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         layout()
     }
     
@@ -61,6 +65,14 @@ class InfoViewController: UIViewController {
             guard let period else {return}
             DispatchQueue.main.async {
                 self?.planetLabel.text = "Planet orbital period is \(period)"
+            }
+        }
+        
+        ModelInfo().getPlanetResidents {[weak self] residents in
+            guard let residents else {return}
+            self?.residentsURL = residents
+            DispatchQueue.main.async {
+                self?.residentsTableView.reloadData()
             }
         }
     }
@@ -102,4 +114,30 @@ class InfoViewController: UIViewController {
             print("Info button tapped")
         })
     }
+}
+extension InfoViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        return residentsURL.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as UITableViewCell
+        for i in residentsURL {
+            ModelInfo().getPlanetResident(urlResident: i) { residentus in
+                DispatchQueue.main.async {
+                    cell.textLabel?.text = residentus?.name
+                    cell.backgroundColor = .cyan
+                    
+                }
+            }
+        }
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
 }

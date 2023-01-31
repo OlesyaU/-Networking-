@@ -51,18 +51,17 @@ import Foundation
  */
 struct Resident: Decodable {
     var name: String
-    var gender: String
 }
 
 struct Planeta: Decodable {
     var name: String
     var period: String
-//    var residents: [Resident]
+    var residents: [String]
     
     enum CodingKeys: String, CodingKey {
         case name
         case period = "orbital_period"
-//        case residents
+        case residents
     }
 }
 
@@ -138,7 +137,7 @@ struct ModelInfo {
             print(data)
             do {
                 let answer =  try JSONDecoder().decode(Planeta.self, from: data)
-               completion?(answer.period)
+                completion?(answer.period)
             }
             catch {
                 print(error)
@@ -149,14 +148,14 @@ struct ModelInfo {
         task.resume()
     }
     
-    func getPlanetResidents(_ completion: (([Resident]?)-> Void)?) {
-       guard let url = URL(string: "https://swapi.dev/api/planets/1/") else {
+    func getPlanetResidents(_ completion: (([String]?)-> Void)?) {
+        guard let url = URL(string: "https://swapi.dev/api/planets/1/") else {
             print("проблема с урлом")
             return
         }
         
         let session = URLSession(configuration: .default)
-        let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 10)
+        let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 0)
         let task = session.dataTask(with: request) { data, response, error in
             if let error {
                 print(error.localizedDescription)
@@ -179,18 +178,16 @@ struct ModelInfo {
             }
             
             do {
-
                 let answer = try JSONDecoder().decode(Planeta.self, from: data)
                 
-                var answerArray: [Resident] = []
+                //                массив резидентов тут                 answer.residents
+                var answerArray: [String] = []
                 
-//                for item in answer.residents {
-//                    answerArray.append(item)
-//                }
-                print(answerArray)
+                for item in answer.residents {
+                    answerArray.append(item)
+                }
+                
                 completion?(answerArray)
-             
-
             }
             catch {
                 completion?(nil)
@@ -200,8 +197,41 @@ struct ModelInfo {
         
         //        не забываем резьюмить таску!
         task.resume()
-        
-        
-        
+    }
+    
+    func getPlanetResident(urlResident: String, completion: ((Resident?)-> Void)?){
+        let session = URLSession(configuration: .default)
+        guard let URL = URL(string: urlResident) else {return}
+        let task = session.dataTask(with: URL) { data, responce, error in
+            if let error {
+                print(error.localizedDescription)
+                completion?(nil)
+                return
+            }
+            let statusCode = (responce as? HTTPURLResponse)?.statusCode
+            
+            if statusCode != 200 {
+                print("Status code != 200. StatusCode = \(String(describing: statusCode))")
+                completion?(nil)
+                return
+            }
+            
+            guard let data  else {
+                print("Data = nil")
+                completion?(nil)
+                return
+            }
+            print(data)
+            do {
+                let answer =  try JSONDecoder().decode(Resident.self, from: data)
+                completion?(answer)
+            }
+            catch {
+                print(error)
+                completion?(nil)
+                return
+            }
+        }
+        task.resume()
     }
 }

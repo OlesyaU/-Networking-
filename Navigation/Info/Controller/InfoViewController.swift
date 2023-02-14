@@ -66,14 +66,13 @@ class InfoViewController: UIViewController {
                 await updatePlanetaInfo(period: planeta.period)
                 let planetaResidents = try await ModelInfo.getPlanetResidents()
                 residentsURL = planetaResidents.residents
-                await getPlanetaResidents(residents: residentsURL)
+                await getPlanResidents(residents: residentsURL)
         }
     }
     
-    private func getPlanetaResidents(residents: [String]) async {
+    private func getPlanResidents(residents: [String]) async {
         self.residentsTableView.reloadData()
-        
-    }
+   }
     
     private func updatePlanetaInfo(period: String) async {
         self.planetLabel.text = "Planet orbital period is \(period)"

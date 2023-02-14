@@ -120,57 +120,12 @@ struct ModelInfo {
    }
     
   static func getPlanetResidents() async throws -> Planeta {
-//        guard
+
             let url = URL(string: "https://swapi.dev/api/planets/1/")!
-//       else {
-//            print("проблема с урлом")
-//            return
-//        }
+
        let planeta = try await URLSession.shared.decode(Planeta.self, from: url)
         return planeta
-//        let session = URLSession(configuration: .default)
-//        let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 0)
-//        let task = session.dataTask(with: request) { data, response, error in
-//            if let error {
-//                print(error.localizedDescription)
-//                completion?(nil)
-//                return
-//            }
-//
-//            let statusCode = (response as? HTTPURLResponse)?.statusCode
-//
-//            if statusCode != 200 {
-//                print("Status code isn't 200, statusCode \(String(describing: statusCode))")
-//                completion?(nil)
-//                return
-//            }
-//
-//            guard let data  else {
-//                print("data - nil")
-//                completion?(nil)
-//                return
-//            }
-//
-//            do {
-//                let answer = try JSONDecoder().decode(Planeta.self, from: data)
-//
-//                //         массив резидентов тут        answer.residents
-//                var answerArray: [String] = []
-//
-//                for item in answer.residents {
-//                    answerArray.append(item)
-//                }
-//
-//                completion?(answerArray)
-//            }
-//            catch {
-//                completion?(nil)
-//                print(error)
-//            }
-//        }
-//
-//        //        не забываем резьюмить таску!
-//        task.resume()
+
     }
     
     func getPlanetResident(urlResident: String, completion: ((Resident?)-> Void)?){

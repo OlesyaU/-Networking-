@@ -6,6 +6,7 @@
 //
 
 import Foundation
+//JSON для первого
 //для первого задания JSON
 /*
  "userId": 1,
@@ -96,7 +97,7 @@ struct ModelInfo {
                     completion?(nil)
                     return
                 }
-                //                тут берем тайтл у рандомного JSON'a - это можно изменить
+                //  тут берем тайтл у рандомного JSON'a - это можно изменить
                 guard let text = answer.randomElement()!["title"] as? String else {
                     completion?(nil)
                     return
@@ -111,44 +112,14 @@ struct ModelInfo {
         }
         task.resume()
     }
+    static func getPlaneta() async throws -> Planeta {
+        let url = URL(string: "https://swapi.dev/api/planets/1")!
+        let planeta = try await URLSession.shared.decode(Planeta.self, from: url)
+         return planeta
+        
+   }
     
-    func getPlanetaData(_ completion: ((_ period: String?)-> Void)?) {
-        let session = URLSession(configuration: .default)
-        guard let URL = URL(string: "https://swapi.dev/api/planets/1") else {return}
-        let task = session.dataTask(with: URL) { data, responce, error in
-            if let error {
-                print(error.localizedDescription)
-                completion?(nil)
-                return
-            }
-            let statusCode = (responce as? HTTPURLResponse)?.statusCode
-            
-            if statusCode != 200 {
-                print("Status code != 200. StatusCode = \(String(describing: statusCode))")
-                completion?(nil)
-                return
-            }
-            
-            guard let data  else {
-                print("Data = nil")
-                completion?(nil)
-                return
-            }
-            print(data)
-            do {
-                let answer =  try JSONDecoder().decode(Planeta.self, from: data)
-                completion?(answer.period)
-            }
-            catch {
-                print(error)
-                completion?(nil)
-                return
-            }
-        }
-        task.resume()
-    }
-    
-    func getPlanetResidents(_ completion: (([String]?)-> Void)?) {
+   func getPlanetResidents(_ completion: (([String]?)-> Void)?) {
         guard let url = URL(string: "https://swapi.dev/api/planets/1/") else {
             print("проблема с урлом")
             return
@@ -180,7 +151,7 @@ struct ModelInfo {
             do {
                 let answer = try JSONDecoder().decode(Planeta.self, from: data)
                 
-                //                массив резидентов тут                 answer.residents
+                //         массив резидентов тут        answer.residents
                 var answerArray: [String] = []
                 
                 for item in answer.residents {
@@ -233,5 +204,25 @@ struct ModelInfo {
             }
         }
         task.resume()
+    }
+}
+
+extension URLSession {
+    func decode<T: Decodable>(
+        _ type: T.Type = T.self,
+        from url: URL,
+        keyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .useDefaultKeys,
+        dataDecodingStrategy: JSONDecoder.DataDecodingStrategy = .deferredToData,
+        dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .deferredToDate
+    ) async throws -> T {
+        let (data, _) = try await data(from: url)
+
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = keyDecodingStrategy
+        decoder.dataDecodingStrategy = dataDecodingStrategy
+        decoder.dateDecodingStrategy = dateDecodingStrategy
+
+        let decoded = try decoder.decode(T.self, from: data)
+        return decoded
     }
 }

@@ -40,7 +40,7 @@ class InfoViewController: UIViewController {
     private lazy var residentsTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.backgroundColor = .gray
+//        tableView.backgroundColor = .gray
         return tableView
     }()
     
@@ -61,11 +61,10 @@ class InfoViewController: UIViewController {
             }
         })
         
-        ModelInfo().getPlanetaData { [weak self] period in
-            guard let period else {return}
-            DispatchQueue.main.async {
-                self?.planetLabel.text = "Planet orbital period is \(period)"
-            }
+       
+            Task {
+              let planeta = try  await   ModelInfo.getPlaneta()
+                await updatePlanetaInfo(period: planeta.period)
         }
         
         ModelInfo().getPlanetResidents {[weak self] residents in
@@ -77,13 +76,17 @@ class InfoViewController: UIViewController {
         }
     }
     
+    private func updatePlanetaInfo(period: String) async {
+        self.planetLabel.text = "Planet orbital period is \(period)"
+    }
+    
     private func layout() {
         view.backgroundColor = .systemYellow
         [goToAlertButton, jsonTitleLabel, planetLabel, residentsTableView].forEach({view.addSubview($0)})
         NSLayoutConstraint.activate([
-            goToAlertButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 32),
-            goToAlertButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32),
-            goToAlertButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32),
+            goToAlertButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 40),
+            goToAlertButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            goToAlertButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             goToAlertButton.heightAnchor.constraint(equalToConstant: 30),
             
             jsonTitleLabel.topAnchor.constraint(equalTo: goToAlertButton.bottomAnchor, constant: 16),
@@ -118,7 +121,6 @@ class InfoViewController: UIViewController {
 extension InfoViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         return residentsURL.count
     }
     
@@ -128,8 +130,6 @@ extension InfoViewController: UITableViewDelegate, UITableViewDataSource {
             ModelInfo().getPlanetResident(urlResident: i) { residentus in
                 DispatchQueue.main.async {
                     cell.textLabel?.text = residentus?.name
-                    cell.backgroundColor = .cyan
-                    
                 }
             }
         }

@@ -60,20 +60,19 @@ class InfoViewController: UIViewController {
                 self?.jsonTitleLabel.text = "Title text is: \n \"\(String(describing: text!.capitalized))\""
             }
         })
-        
        
             Task {
               let planeta = try  await   ModelInfo.getPlaneta()
                 await updatePlanetaInfo(period: planeta.period)
+                let planetaResidents = try await ModelInfo.getPlanetResidents()
+                residentsURL = planetaResidents.residents
+                await getPlanetaResidents(residents: residentsURL)
         }
+    }
+    
+    private func getPlanetaResidents(residents: [String]) async {
+        self.residentsTableView.reloadData()
         
-        ModelInfo().getPlanetResidents {[weak self] residents in
-            guard let residents else {return}
-            self?.residentsURL = residents
-            DispatchQueue.main.async {
-                self?.residentsTableView.reloadData()
-            }
-        }
     }
     
     private func updatePlanetaInfo(period: String) async {

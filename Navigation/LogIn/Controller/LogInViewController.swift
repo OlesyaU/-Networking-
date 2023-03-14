@@ -115,6 +115,7 @@ class LogInViewController: UIViewController {
         nc.addObserver(self, selector: #selector(keyboardHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         nameTextField.text = ""
         passwordTextField.text = ""
+        logInButton.isEnabled = false
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -123,10 +124,10 @@ class LogInViewController: UIViewController {
     }
     
     func getName() -> String {
-        nameTextField.text ?? "Имя из текстфилда"
+        nameTextField.text ?? ""
     }
     func getPassword() -> String {
-        passwordTextField.text ?? "Пароль из текстфилда"
+        passwordTextField.text ?? ""
     }
     
     private func layout() {
@@ -235,6 +236,18 @@ class LogInViewController: UIViewController {
 }
 
 extension LogInViewController: UITextFieldDelegate {
+    
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let login = getName().count
+        let pass = getPassword().count
+        
+        let result = login > 0 && pass > 0
+        logInButton.isEnabled = result
+        
+        return true
+    }
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         view.endEditing(true)
         return true

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 protocol LogInViewControllerDelegate: AnyObject {
     func checkLogData(login: String, password: String) -> Bool

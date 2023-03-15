@@ -9,17 +9,20 @@ import UIKit
 import FirebaseAuth
 
 protocol LogInViewControllerDelegate: AnyObject {
-    func checkLogData(login: String, password: String) -> Bool
+    var isSignUp: Bool {get}
+    var errorText: String? {get}
+    func checkCredentials(login: String, password: String)
+     func signUp(login: String, password: String)
 }
 protocol CheckerServiceProtocol: AnyObject {
-   func checkCredentials()
-    func signUp()
+    var isSignUp: Bool {get}
+    var errorText: String? {get}
+   func checkCredentials(login: String, password: String)
+    func signUp(login: String, password: String)
 }
 
 class LogInViewController: UIViewController {
-    
     private let nc = NotificationCenter.default
-    private var user = TestUserService()
     var delegate: LogInViewControllerDelegate?
     private let buttonClass = CustomButton()
     private var result: Bool?
@@ -192,14 +195,17 @@ class LogInViewController: UIViewController {
         let nameUser = getName()
         let passUser = getPassword()
         
-      
-        result = delegate?.checkLogData(login: nameUser, password: passUser)
+
+       delegate?.checkCredentials(login: nameUser, password: passUser)
+        result = delegate?.isSignUp
+        print("\(result) result from Loginvc")
         coordinator?.checkResult = { [weak self] in
             self!.result!
         }
-        coordinator?.login = { [weak self] in
-            (self?.getName())!
-        }
+
+//        coordinator?.login = { [weak self] in
+//            (self?.getName())!
+//        }
         coordinator?.controller = self
         coordinator?.setUp()
         

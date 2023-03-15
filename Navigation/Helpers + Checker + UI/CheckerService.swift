@@ -9,25 +9,33 @@ import Foundation
 import FirebaseAuth
 
 final class CheckerService {
-//    static let shared = CheckerService()
-//    private  var loginVC  = ""
-//    private  var passwordVC = ""
-//    private init () {}
+    static let shared = CheckerService()
+    var isSignUp: Bool = false
+    var errorText: String?
     
-    func checkCredentials(){
-        Auth.auth().signIn(withEmail: <#T##String#>, password: <#T##String#>) { <#AuthDataResult?#>, <#Error?#> in
-            <#code#>
-        }
-//        при реализации метода checkCredentials проверять, есть ли в БД пользователь с переданными учётными данными, вызывая метод Auth.auth().signIn(withEmail:, password:, completion:);
-//        если этот метод вернул ошибку, то показывать её на экране в виде алерта. Регистрировать пользователя с помощью метода Auth.auth().createUser(withEmail:, password:, completion:);
-    }
-    func signUp(){
-        
-        Auth.auth().createUser(withEmail: <#T##String#>, password: <#T##String#>) { <#AuthDataResult?#>, <#Error?#> in
-            <#code#>
+    func checkCredentials(login: String, password: String)  {
+        print("Login CheckerService - checkCredentials \(login)")
+        print("Password CheckerService - checkCredentials \(password)")
+        Auth.auth().signIn(withEmail: login, password: password) { result, error in
+            guard result != nil else {
+                self.signUp(login: login, password: password)
+                self.isSignUp = false
+                self.errorText = error?.localizedDescription
+                print("user in checkCredentals not found")
+                print(error?.localizedDescription as Any)
+                print(self.isSignUp)
+                return
+            }
+            print("User in DataBase - checkCredentials")
+            self.isSignUp = true
+            print(self.isSignUp)
         }
     }
     
+    func signUp(login: String, password: String){
+        Auth.auth().createUser(withEmail: login, password: password) { result, error in
+        }
+    }
 }
 //если на экране отрисована лишь одна кнопка Login, то необходимо продумать логику регистрации пользователя. При нажатии на неё сначала проверять, есть ли такой пользователь в БД:
 //если такого пользователя нет, регистировать в БД;

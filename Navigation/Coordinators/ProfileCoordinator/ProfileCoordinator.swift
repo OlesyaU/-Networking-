@@ -16,11 +16,12 @@ final class ProfileCoordinator: Coordinator {
     private var user: User?
     private  let loginVC: LogInViewController
     private var profileNC: UINavigationController
-    private let service = TestUserService()
+    private let checkerService = CheckerService()
+//    private let service = TestUserService()
     var errors: VCErrors?
     var controller: UIViewController
     var children: [Coordinator]
-    var login: (()->String)?
+//    var login: (()->String)?
     var checkResult: (()->Bool)?
     
     init(controller: UIViewController) {
@@ -38,21 +39,17 @@ final class ProfileCoordinator: Coordinator {
     }
     
     func setUp()  {
-        user = service.getUser(name: login!())
+//        user = service.getUser(name: login!())
+//        user = 
         guard let user = user else {return}
         if checkResult!() {
             present(.profile(user))
         } else {
             let action1 = UIAlertAction(title: "Cancel", style: .cancel)
             let action2 = UIAlertAction(title: "Sign In", style: .destructive) {_ in
-//                add action to create account (delegate)
-//                FirebaseAuth.Auth.auth().currentUser — проверка на nil;есть ли такой пользовтель уже или нет, если неет- создавать
-//
-//                FirebaseAuth.Auth.auth().createUser(withEmail:, password:, completion:); если такой пользователь есть, но введён неверный пароль, показать соответствующую ошибку;
-
-            
             }
-            let aleartVC = UIAlertController(title: "User not found", message: "Do you want create account?", preferredStyle: .alert)
+           
+            let aleartVC = UIAlertController(title: "User not found", message: checkerService.errorText, preferredStyle: .alert)
 
             aleartVC.addAction(action1)
             aleartVC.addAction(action2)

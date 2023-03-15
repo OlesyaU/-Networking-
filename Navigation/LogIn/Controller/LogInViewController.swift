@@ -11,7 +11,10 @@ import FirebaseAuth
 protocol LogInViewControllerDelegate: AnyObject {
     func checkLogData(login: String, password: String) -> Bool
 }
-
+protocol CheckerServiceProtocol: AnyObject {
+   func checkCredentials()
+    func signUp()
+}
 
 class LogInViewController: UIViewController {
     
@@ -106,7 +109,7 @@ class LogInViewController: UIViewController {
         view.backgroundColor = .white
         navigationController?.navigationBar.isHidden = true
         layout()
-        buttonTapped()
+//        buttonTapped()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -174,24 +177,22 @@ class LogInViewController: UIViewController {
         ])
     }
     
-    private func buttonTapped() {
-        buttonClass.buttonPressed = { [weak self] in
-            guard let self = self else { return }
-            self.logInButtonTapped(self.buttonClass)
-        }
-    }
+//    private func buttonTapped() {
+//        buttonClass.buttonPressed = { [weak self] in
+//            guard let self = self else { return }
+//            self.logInButtonTapped(self.buttonClass)
+//        }
+//    }
     
     @objc private func logInButtonTapped(_ sender: UIButton) {
+        //                add action to create account (delegate)
+        //                FirebaseAuth.Auth.auth().currentUser — проверка на nil;есть ли такой пользовтель уже или нет, если неет- показать алерт
+        // если есть переход к профилю если такой пользователь есть, но введён неверный пароль, показать соответствующую ошибку;
+
         let nameUser = getName()
         let passUser = getPassword()
         
-        //        let profileVC = ProfileViewController(user: user.getUser(name: nameUser)!)
-        //        profileVC.nameFromLogin = { [weak self] in
-        //           nameUser
-        //  }
-        //      let nbhn =   user.getUser(name: nameUser)
-        //        print(nameUser)
-        
+      
         result = delegate?.checkLogData(login: nameUser, password: passUser)
         coordinator?.checkResult = { [weak self] in
             self!.result!
@@ -202,11 +203,7 @@ class LogInViewController: UIViewController {
         coordinator?.controller = self
         coordinator?.setUp()
         
-        //        if ((delegate?.checkLogData(login: nameUser, password: passUser)) != nil) {
-        //            navigationController?.pushViewController(ProfileViewController(user: user, name: nameUser ), animated: true)
-        //        } else {
-        //            print("Incorrect data : login or password. Correct login : Вжик, correct paasword: Вжик")
-        //        }
+        
         
         switch sender.state {
             case .normal:

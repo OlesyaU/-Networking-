@@ -43,9 +43,19 @@ final class ProfileCoordinator: Coordinator {
         if checkResult!() {
             present(.profile(user))
         } else {
-            let aleart = UIAlertAction(title: "User not found", style: .destructive)
-            let aleartVC = UIAlertController(title: "WTF", message: "Strange thing", preferredStyle: .alert)
-            aleartVC.addAction(aleart)
+            let action1 = UIAlertAction(title: "Cancel", style: .cancel)
+            let action2 = UIAlertAction(title: "Sign In", style: .destructive) {_ in
+//                add action to create account (delegate)
+//                FirebaseAuth.Auth.auth().currentUser — проверка на nil;есть ли такой пользовтель уже или нет, если неет- создавать
+//
+//                FirebaseAuth.Auth.auth().createUser(withEmail:, password:, completion:); если такой пользователь есть, но введён неверный пароль, показать соответствующую ошибку;
+
+            
+            }
+            let aleartVC = UIAlertController(title: "User not found", message: "Do you want create account?", preferredStyle: .alert)
+
+            aleartVC.addAction(action1)
+            aleartVC.addAction(action2)
             controller.present(aleartVC, animated: true)
         }
     }

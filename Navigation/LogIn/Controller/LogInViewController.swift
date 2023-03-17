@@ -92,7 +92,7 @@ class LogInViewController: UIViewController {
         return textField
     }()
     
-    private lazy var logInButton: CustomButton = {
+     lazy var logInButton: CustomButton = {
         let button = CustomButton(title: "Log In", background: .white, titleColor: .white)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setBackgroundImage(UIImage(named:"blue_pixel"), for: .normal)

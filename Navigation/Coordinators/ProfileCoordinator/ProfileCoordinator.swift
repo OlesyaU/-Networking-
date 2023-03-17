@@ -13,7 +13,7 @@ final class ProfileCoordinator: Coordinator {
         case photos
     }
     
-    private var user: User?
+    private var user: (() -> User)?
     private  let loginVC: LogInViewController
     private var profileNC: UINavigationController
     private let checkerService = CheckerService()
@@ -22,7 +22,9 @@ final class ProfileCoordinator: Coordinator {
     var controller: UIViewController
     var children: [Coordinator]
 //    var login: (()->String)?
-    var checkResult: (()->Bool)?
+    var checkResult:(() -> Bool)?
+  var textError: (()-> String)?
+    
     
     init(controller: UIViewController) {
         self.controller = controller
@@ -36,20 +38,27 @@ final class ProfileCoordinator: Coordinator {
         profileNC.tabBarItem = UITabBarItem(title: "Profile",
                                             image: UIImage(systemName: "person.crop.circle"),
                                             selectedImage: UIImage(systemName: "person.crop.circle.fill"))
+//        self.checkResult = loginVC.getRes
     }
     
     func setUp()  {
-//        user = service.getUser(name: login!())
-//        user = 
-        guard let user = user else {return}
-        if checkResult!() {
-            present(.profile(user))
+        
+        guard let u = user?() else {print("user = nil")
+            return
+        }
+
+        if ((checkResult?()) != nil) {
+            
+            present(.profile(u))
+            
+
+            print("checkResult Coordinator-true")
         } else {
             let action1 = UIAlertAction(title: "Cancel", style: .cancel)
             let action2 = UIAlertAction(title: "Sign In", style: .destructive) {_ in
             }
            
-            let aleartVC = UIAlertController(title: "User not found", message: checkerService.errorText, preferredStyle: .alert)
+            let aleartVC = UIAlertController(title: "User not found", message: String(checkResult?() != nil) , preferredStyle: .alert)
 
             aleartVC.addAction(action1)
             aleartVC.addAction(action2)

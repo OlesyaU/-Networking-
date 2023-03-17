@@ -10,25 +10,25 @@ import FirebaseAuth
 
 final class CheckerService {
     static let shared = CheckerService()
-    var isSignUp: Bool = false
-    var errorText: String?
-    
-    func checkCredentials(login: String, password: String)  {
+    func checkCredentials(login: String, password: String,  completion: ((_ isSignUp: Bool?,_ user: User?, _ errorText: String?)-> Void)?)  {
         print("Login CheckerService - checkCredentials \(login)")
         print("Password CheckerService - checkCredentials \(password)")
+
         Auth.auth().signIn(withEmail: login, password: password) { result, error in
-            guard result != nil else {
-                self.signUp(login: login, password: password)
-                self.isSignUp = false
-                self.errorText = error?.localizedDescription
-                print("user in checkCredentals not found")
-                print(error?.localizedDescription as Any)
-                print(self.isSignUp)
-                return
-            }
-            print("User in DataBase - checkCredentials")
-            self.isSignUp = true
-            print(self.isSignUp)
+
+                        guard let result  else {
+                            self.signUp(login: login, password: password)
+
+                            print("user in checkCredentals not found")
+                            print(error?.localizedDescription as Any)
+                           print(result?.user.email)
+
+                            completion?(false, nil, error?.localizedDescription)
+                            return
+                        }
+                        print("User in DataBase - checkCredentials")
+                    let us =    User(fullName: result.user.email!, avatar: UIImage(), status: "SDSDF")
+            completion?(false, us, error?.localizedDescription)
         }
     }
     
@@ -37,7 +37,4 @@ final class CheckerService {
         }
     }
 }
-//если на экране отрисована лишь одна кнопка Login, то необходимо продумать логику регистрации пользователя. При нажатии на неё сначала проверять, есть ли такой пользователь в БД:
-//если такого пользователя нет, регистировать в БД;
-//если такой пользователь есть, но введён неверный пароль, показать соответствующую ошибку;
-//если пользователь есть, а введённые поля валидны, проходить авторизацию и открывать следующий экран
+

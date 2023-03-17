@@ -8,16 +8,18 @@
 import UIKit
 import FirebaseAuth
 
+protocol CoordinatorProtocol {
+    
+}
+
 protocol LogInViewControllerDelegate: AnyObject {
-    var isSignUp: Bool {get}
-    var errorText: String? {get}
-    func checkCredentials(login: String, password: String)
+
+    func checkCredentials(login: String, password: String, completion: ((_ isSignUp: Bool?,_ user: User?, _ errorText: String?)-> Void)?)
      func signUp(login: String, password: String)
 }
 protocol CheckerServiceProtocol: AnyObject {
-    var isSignUp: Bool {get}
-    var errorText: String? {get}
-   func checkCredentials(login: String, password: String)
+
+   func checkCredentials(login: String, password: String, completion: ((_ isSignUp: Bool?,_ user: User?, _ errorText: String?)-> Void)?)
     func signUp(login: String, password: String)
 }
 
@@ -25,8 +27,10 @@ class LogInViewController: UIViewController {
     private let nc = NotificationCenter.default
     var delegate: LogInViewControllerDelegate?
     private let buttonClass = CustomButton()
-    private var result: Bool?
-    var coordinator: ProfileCoordinator?
+//    private var result: Bool?
+ var coordinator: ProfileCoordinator?
+//    private var errorText: String = ""
+    
     
     
     private let scrollView: UIScrollView =  {
@@ -188,20 +192,46 @@ class LogInViewController: UIViewController {
 //    }
     
     @objc private func logInButtonTapped(_ sender: UIButton) {
-        //                add action to create account (delegate)
-        //                FirebaseAuth.Auth.auth().currentUser — проверка на nil;есть ли такой пользовтель уже или нет, если неет- показать алерт
-        // если есть переход к профилю если такой пользователь есть, но введён неверный пароль, показать соответствующую ошибку;
-
+       
         let nameUser = getName()
         let passUser = getPassword()
         
 
-       delegate?.checkCredentials(login: nameUser, password: passUser)
-        result = delegate?.isSignUp
-        print("\(result) result from Loginvc")
-        coordinator?.checkResult = { [weak self] in
-            self!.result!
+        delegate?.checkCredentials(login: nameUser, password: passUser) {isSignUp, user,  errorText in
+//            self.result = isSignUp
+            print("IsSignUp/SELF result from LoginVC \(isSignUp)")
+//            self.errorText = errorText
+            print("ErrorText from LoginVC \(errorText)")
+            self.coordinator?.checkResult = {
+                print("result- isSignUp to coordinator loginVC \(isSignUp)")
+                guard let res = isSignUp else {print("isSignUp = nil")}
+                return res
+
+            }
+//            coordinator.
+//
+           
+            self.coordinator?.textError = {
+                print("errorTEXT fron login vc \(errorText)")
+                guard let errorTex = errorText else
+                { print("errorTex = nil")
+                    return}
+                
+               return errorTex
+            }
+//
         }
+//        coordinator?.checkResult = {
+////            if  let res = self.result {
+////               print(" ras logvc\(res)")
+////            }
+//            print(" selfResilt \(self.result)")
+//            return self.result
+//        }
+//        coordinator?.textError = {
+//            print(" selfErrorte \(self.errorText)")
+//            return self.errorText
+//        }
 
 //        coordinator?.login = { [weak self] in
 //            (self?.getName())!

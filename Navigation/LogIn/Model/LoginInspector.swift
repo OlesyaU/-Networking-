@@ -11,7 +11,7 @@ class LoginInspector: LogInViewControllerDelegate {
 
     let checkerServise = CheckerService.shared
    
-    func checkCredentials(login: String, password: String, completion: ((_ isSignUp: Bool?,_ user: User?, _ errorText: String?)-> Void)?)  {
+    func checkCredentials(login: String, password: String, completion: ((_ isSignUp: Bool,_ user: User, _ errorText: String)-> Void)?)  {
         checkerServise.checkCredentials(login: login, password: password, completion: completion)
         print("LoginInspector - checkCredentials worked")
     }

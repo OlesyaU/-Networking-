@@ -17,7 +17,7 @@ class ProfileViewController: UIViewController {
     
     private let posts =  Post.posts()
     private let filter = ImageProcessor()
-    private let user: UserService?
+    private var user: UserService?
     var nameFromLogin: (() -> String)?
     var coordinator: ProfileCoordinator?
     
@@ -33,11 +33,12 @@ class ProfileViewController: UIViewController {
     }()
     
     init(user: UserService) {
-#if DEBUG
-        self.user = TestUserService()
-#else
-        self.user = CurrentUserService()
-#endif
+//#if DEBUG
+//        self.user = TestUserService()
+//#else
+//        self.user = CurrentUserService()
+//#endif
+        self.user = user
         super.init(nibName: nil, bundle: nil)
     }
     

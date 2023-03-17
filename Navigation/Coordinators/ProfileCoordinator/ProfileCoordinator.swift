@@ -13,7 +13,7 @@ final class ProfileCoordinator: Coordinator {
         case photos
     }
     
-    private var user: (() -> User)?
+   var user: (() -> User)?
     private  let loginVC: LogInViewController
     private var profileNC: UINavigationController
     private let checkerService = CheckerService()
@@ -43,13 +43,17 @@ final class ProfileCoordinator: Coordinator {
     
     func setUp()  {
         
-        guard let u = user?() else {print("user = nil")
-            return
-        }
-
-        if ((checkResult?()) != nil) {
+//        guard let u = user?() else {print("user = nil")
+//            return
+//        }
+//        guard let bnbnb = checkResult?() else {
+//            print("checkResult = nil")
+//            return
+//        }
+//print(checkResult!() )
+        if checkResult!() {
             
-            present(.profile(u))
+            present(.profile(user!()))
             
 
             print("checkResult Coordinator-true")
@@ -58,7 +62,7 @@ final class ProfileCoordinator: Coordinator {
             let action2 = UIAlertAction(title: "Sign In", style: .destructive) {_ in
             }
            
-            let aleartVC = UIAlertController(title: "User not found", message: String(checkResult?() != nil) , preferredStyle: .alert)
+            let aleartVC = UIAlertController(title: "User not found", message: "MESSSSSSAGE String(bnbnb)" , preferredStyle: .alert)
 
             aleartVC.addAction(action1)
             aleartVC.addAction(action2)

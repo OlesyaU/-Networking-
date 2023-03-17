@@ -8,18 +8,13 @@
 import UIKit
 import FirebaseAuth
 
-protocol CoordinatorProtocol {
-    
-}
-
 protocol LogInViewControllerDelegate: AnyObject {
-
-    func checkCredentials(login: String, password: String, completion: ((_ isSignUp: Bool?,_ user: User?, _ errorText: String?)-> Void)?)
-     func signUp(login: String, password: String)
+    func checkCredentials(login: String, password: String, completion: ((_ isSignUp: Bool,_ user: User, _ errorText: String)-> Void)?)
+    func signUp(login: String, password: String)
 }
-protocol CheckerServiceProtocol: AnyObject {
 
-   func checkCredentials(login: String, password: String, completion: ((_ isSignUp: Bool?,_ user: User?, _ errorText: String?)-> Void)?)
+protocol CheckerServiceProtocol: AnyObject {
+    func checkCredentials(login: String, password: String, completion: ((_ isSignUp: Bool,_ user: User, _ errorText: String)-> Void)?)
     func signUp(login: String, password: String)
 }
 
@@ -27,11 +22,7 @@ class LogInViewController: UIViewController {
     private let nc = NotificationCenter.default
     var delegate: LogInViewControllerDelegate?
     private let buttonClass = CustomButton()
-//    private var result: Bool?
- var coordinator: ProfileCoordinator?
-//    private var errorText: String = ""
-    
-    
+    var coordinator: ProfileCoordinator?
     
     private let scrollView: UIScrollView =  {
         let scroll = UIScrollView()
@@ -116,7 +107,7 @@ class LogInViewController: UIViewController {
         view.backgroundColor = .white
         navigationController?.navigationBar.isHidden = true
         layout()
-//        buttonTapped()
+        //        buttonTapped()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -184,62 +175,31 @@ class LogInViewController: UIViewController {
         ])
     }
     
-//    private func buttonTapped() {
-//        buttonClass.buttonPressed = { [weak self] in
-//            guard let self = self else { return }
-//            self.logInButtonTapped(self.buttonClass)
-//        }
-//    }
-    
     @objc private func logInButtonTapped(_ sender: UIButton) {
-       
+        
         let nameUser = getName()
         let passUser = getPassword()
         
-
         delegate?.checkCredentials(login: nameUser, password: passUser) {isSignUp, user,  errorText in
-//            self.result = isSignUp
             print("IsSignUp/SELF result from LoginVC \(isSignUp)")
-//            self.errorText = errorText
             print("ErrorText from LoginVC \(errorText)")
+            print("User LoginVC \(user.fullName)")
+            
             self.coordinator?.checkResult = {
-                print("result- isSignUp to coordinator loginVC \(isSignUp)")
-                guard let res = isSignUp else {print("isSignUp = nil")}
-                return res
-
+                return isSignUp
             }
-//            coordinator.
-//
-           
+            
+            self.coordinator?.user = {
+                return user
+            }
+            
             self.coordinator?.textError = {
-                print("errorTEXT fron login vc \(errorText)")
-                guard let errorTex = errorText else
-                { print("errorTex = nil")
-                    return}
-                
-               return errorTex
+                return errorText
             }
-//
+            
+            self.coordinator?.controller = self
+            self.coordinator?.setUp()
         }
-//        coordinator?.checkResult = {
-////            if  let res = self.result {
-////               print(" ras logvc\(res)")
-////            }
-//            print(" selfResilt \(self.result)")
-//            return self.result
-//        }
-//        coordinator?.textError = {
-//            print(" selfErrorte \(self.errorText)")
-//            return self.errorText
-//        }
-
-//        coordinator?.login = { [weak self] in
-//            (self?.getName())!
-//        }
-        coordinator?.controller = self
-        coordinator?.setUp()
-        
-        
         
         switch sender.state {
             case .normal:

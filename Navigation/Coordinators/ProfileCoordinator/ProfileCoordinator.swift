@@ -20,8 +20,7 @@ final class ProfileCoordinator: Coordinator {
     var children: [Coordinator]
     var user: (() -> User)?
     var checkResult:(() -> Bool)?
-  var textError: (()-> String)?
-    
+    var textError: (()-> String)?
     
     init(controller: UIViewController) {
         self.controller = controller
@@ -38,18 +37,13 @@ final class ProfileCoordinator: Coordinator {
     }
     
     func setUp()  {
-       if checkResult!() {
+        if checkResult!() {
             present(.profile(user!()))
-           print("checkResult Coordinator-true")
+            print("checkResult Coordinator-true")
         } else {
             let aleartVC = UIAlertController(title: "OOOOOPS", message: textError!() , preferredStyle: .alert)
             let action1 = UIAlertAction(title: "Cancel", style: .cancel)
-//            {
-//                _ in
-//                self.loginVC.logInButton.isEnabled = false
-//                return
-//            }
-          
+            
             switch textError!(){
                 case "":
                     fallthrough
@@ -57,12 +51,10 @@ final class ProfileCoordinator: Coordinator {
                     let action2 = UIAlertAction(title: "Sign In", style: .destructive) {_ in
                         self.loginVC.delegate?.signUp(login: self.loginVC.getName(), password: self.loginVC.getPassword())
                     }
-                   aleartVC.addAction(action2)
+                    aleartVC.addAction(action2)
                 default:
-          ()
+                    aleartVC.addAction(action1)
             }
-            
-            aleartVC.addAction(action1)
             controller.present(aleartVC, animated: true)
         }
     }
@@ -80,7 +72,7 @@ final class ProfileCoordinator: Coordinator {
                 controller.navigationController?.pushViewController(PhotosViewController(), animated: true)
         }
     }
-
+    
 }
 
 

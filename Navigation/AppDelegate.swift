@@ -7,15 +7,21 @@
 
 
 import UIKit
-import FirebaseAuth
-import FirebaseCore
+//import FirebaseAuth
+//import FirebaseCore
+import RealmSwift
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    
+    var realm = try! Realm()
    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        FirebaseApp.configure()
+//        FirebaseApp.configure()
+       
+//       почистить базу realm
+//         try! realm.write({
+//                   self.realm.deleteAll()
+//               })
         return true
     }
     
@@ -33,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
     func applicationWillTerminate(_ application: UIApplication) {
-        try?    Auth.auth().signOut()
+//        try?    Auth.auth().signOut()
     }
 }
 

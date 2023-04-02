@@ -6,13 +6,14 @@
 //
 
 import UIKit
+import RealmSwift
 
 final class MainCoordinator: Coordinator {
     
     var controller: UIViewController
     var children: [Coordinator] = []
     
-    init(controller: UIViewController){
+    init(controller: UIViewController) {
         self.controller = controller
     }
     
@@ -29,12 +30,12 @@ final class MainCoordinator: Coordinator {
             feedVC.tabBarItem.image = UIImage(systemName: "rectangle.on.rectangle")
             
             let factory = MyLoginFactory()
-            let profileVC = factory.loginViewController()
-            profileVC.coordinator = ProfileCoordinator(controller: controller)
-            profileVC.tabBarItem.image = .init(systemName: "person")
-            profileVC.tabBarItem.title = "Profile"
+            let loginVC = factory.loginViewController()
+            loginVC.coordinator = ProfileCoordinator(controller: controller)
+            loginVC.tabBarItem.image = .init(systemName: "person")
+            loginVC.tabBarItem.title = "Profile"
             
-            vc.viewControllers = [feedVC, profileVC]
+            vc.viewControllers = [feedVC, loginVC]
             
             let nvc = controller as! UINavigationController
             nvc.pushViewController(vc, animated: false)

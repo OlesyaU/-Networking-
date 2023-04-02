@@ -7,20 +7,27 @@
 
 import Foundation
 import UIKit
+import RealmSwift
 
-final class User: UserService {
+final class User: Object, UserService {
+    @Persisted(primaryKey: true) var _id: ObjectId
+    @Persisted var email = ""
+    @Persisted var password = ""
+    @Persisted var isLogin = false
+    
+    var fullName: String?
+    var avatar: UIImage?
+    var status: String?
+    
+    convenience init(email: String,password: String) {
+        self.init()
+        self.email = email
+        self.password = password
+        self.isLogin = isLogin
+    }
+    
     func getUser(name: String) -> User? {
         self
     }
-// тут я подписала класс юзера на протокол юзер сервис, чтобы удовлетворить в профайлконтроллере условию 
-    
-    let fullName: String
-    let avatar: UIImage
-    let status: String
-    
-    init(fullName: String, avatar: UIImage, status: String) {
-        self.fullName = fullName
-        self.avatar = avatar
-        self.status = status
-    }
 }
+// тут я подписала класс юзера на протокол юзер сервис, чтобы удовлетворить в профайлконтроллере условию

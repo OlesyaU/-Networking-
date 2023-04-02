@@ -6,15 +6,16 @@
 //
 
 import UIKit
-import FirebaseAuth
+//import FirebaseAuth
+import RealmSwift
 
 protocol LogInViewControllerDelegate: AnyObject {
-    func checkCredentials(login: String, password: String, completion: ((_ isSignUp: Bool,_ user: User, _ errorText: String)-> Void)?)
+//    func checkCredentials(login: String, password: String, completion: ((_ isSignUp: Bool,_ user: User, _ errorText: String)-> Void)?)
     func signUp(login: String, password: String)
 }
 
 protocol CheckerServiceProtocol: AnyObject {
-    func checkCredentials(login: String, password: String, completion: ((_ isSignUp: Bool,_ user: User, _ errorText: String)-> Void)?)
+//    func checkCredentials(login: String, password: String, completion: ((_ isSignUp: Bool,_ user: User, _ errorText: String)-> Void)?)
     func signUp(login: String, password: String)
 }
 
@@ -23,6 +24,8 @@ class LogInViewController: UIViewController {
     var delegate: LogInViewControllerDelegate?
     private let buttonClass = CustomButton()
     var coordinator: ProfileCoordinator?
+    let realm = try! Realm()
+    var user: User!
     
     private let scrollView: UIScrollView =  {
         let scroll = UIScrollView()
@@ -107,7 +110,11 @@ class LogInViewController: UIViewController {
         view.backgroundColor = .white
         navigationController?.navigationBar.isHidden = true
         layout()
-        //        buttonTapped()
+ let userFromProfCoord =  ProfileCoordinator(controller: self).user
+        print("userFromProfCoord \(userFromProfCoord)")
+             
+        //        смотреть файлы по этому пути через realmStudio!!!
+                print(realm.configuration.fileURL!)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -116,8 +123,12 @@ class LogInViewController: UIViewController {
         nc.addObserver(self, selector: #selector(keyboardHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         nameTextField.text = ""
         passwordTextField.text = ""
+        nameTextField.placeholder = "Enter your email"
+        nameTextField.keyboardType = .emailAddress
+        passwordTextField.placeholder = "Enter your password 6 or more symbols"
         logInButton.isEnabled = false
     }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         nc.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -179,27 +190,14 @@ class LogInViewController: UIViewController {
         
         let nameUser = getName()
         let passUser = getPassword()
-        
-        delegate?.checkCredentials(login: nameUser, password: passUser) {isSignUp, user,  errorText in
-            print("IsSignUp/SELF result from LoginVC \(isSignUp)")
-            print("ErrorText from LoginVC \(errorText)")
-            print("User LoginVC \(user.fullName)")
-            
-            self.coordinator?.checkResult = {
-                return isSignUp
-            }
-            
-            self.coordinator?.user = {
-                return user
-            }
-            
-            self.coordinator?.textError = {
-                return errorText
-            }
-            
-            self.coordinator?.controller = self
-            self.coordinator?.setUp()
-        }
+
+        delegate?.signUp(login: nameUser, password: passUser)
+
+        user = User(email: nameUser, password: passUser)
+        print("user from LoginVC  logButton  \(user)")
+        self.coordinator?.controller = self
+
+        coordinator?.present(.profile(user))
         
         switch sender.state {
             case .normal:
@@ -214,7 +212,7 @@ class LogInViewController: UIViewController {
                 break
         }
     }
-    
+  
     @objc private func keyboardShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             scrollView.contentInset.bottom = keyboardSize.height

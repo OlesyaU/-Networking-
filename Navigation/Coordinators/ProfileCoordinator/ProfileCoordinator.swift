@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RealmSwift
+
 final class ProfileCoordinator: Coordinator {
     
     enum Presentation {
@@ -18,11 +20,14 @@ final class ProfileCoordinator: Coordinator {
     var errors: VCErrors?
     var controller: UIViewController
     var children: [Coordinator]
-    var user: (() -> User)?
-    var checkResult:(() -> Bool)?
-    var textError: (()-> String)?
+    var user: User!
     
-    init(controller: UIViewController) {
+    var checkResult:(() -> Bool)?
+    var textError:(() -> String)?
+    var realm = try! Realm()
+    var users: Results<User>
+    
+   init(controller: UIViewController) {
         self.controller = controller
         children = []
         
@@ -34,17 +39,23 @@ final class ProfileCoordinator: Coordinator {
         profileNC.tabBarItem = UITabBarItem(title: "Profile",
                                             image: UIImage(systemName: "person.crop.circle"),
                                             selectedImage: UIImage(systemName: "person.crop.circle.fill"))
+        users = try! realm.objects(User.self)
+        user = users.last
+        print("User from coord \(user)")
+        if user != nil,  user.isLogin == true {
+            present(.profile(user))
+        }
     }
     
-    func setUp()  {
-        if checkResult!() {
-            present(.profile(user!()))
-            print("checkResult Coordinator-true")
+    func setUp(){
+        if user != nil,  user.isLogin == true {
+            present(.profile(user))
+            print("user from setUp \(user)")
         } else {
-            let aleartVC = UIAlertController(title: "OOOOOPS", message: textError!() , preferredStyle: .alert)
+            let aleartVC = UIAlertController(title: "OOOOOPS", message: textError?() , preferredStyle: .alert)
             let action1 = UIAlertAction(title: "Cancel", style: .cancel)
             
-            switch textError!(){
+            switch textError?(){
                 case "":
                     fallthrough
                 case "There is no user record corresponding to this identifier. The user may have been deleted.":
@@ -65,14 +76,13 @@ final class ProfileCoordinator: Coordinator {
                 let profileVC = ProfileViewController(user: user)
                 profileVC.coordinator = self
                 profileVC.nameFromLogin = {
-                    user.fullName
+                    user.fullName ?? "No name yet"
                 }
                 controller.navigationController?.pushViewController(profileVC, animated: true)
             case .photos:
                 controller.navigationController?.pushViewController(PhotosViewController(), animated: true)
         }
     }
-    
 }
 
 

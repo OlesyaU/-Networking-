@@ -110,9 +110,9 @@ class LogInViewController: UIViewController {
         view.backgroundColor = .white
         navigationController?.navigationBar.isHidden = true
         layout()
- let userFromProfCoord =  ProfileCoordinator(controller: self).user
+        
+        let userFromProfCoord = ProfileCoordinator(controller: self).user
         print("userFromProfCoord \(userFromProfCoord)")
-             
         //        смотреть файлы по этому пути через realmStudio!!!
                 print(realm.configuration.fileURL!)
     }

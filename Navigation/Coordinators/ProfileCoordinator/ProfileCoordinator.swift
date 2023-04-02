@@ -40,15 +40,16 @@ final class ProfileCoordinator: Coordinator {
                                             image: UIImage(systemName: "person.crop.circle"),
                                             selectedImage: UIImage(systemName: "person.crop.circle.fill"))
         users = try! realm.objects(User.self)
-        user = users.last
-        print("User from coord \(user)")
-        if user != nil,  user.isLogin == true {
-            present(.profile(user))
+       user = users.last
+      
+       print("User from coord \(user)")
+       if user != nil,  user.isLogin == true {
+           present(.profile(user))
         }
     }
     
     func setUp(){
-        if user != nil,  user.isLogin == true {
+        if user != nil, user.isLogin == true {
             present(.profile(user))
             print("user from setUp \(user)")
         } else {
@@ -78,7 +79,7 @@ final class ProfileCoordinator: Coordinator {
                 profileVC.nameFromLogin = {
                     user.fullName ?? "No name yet"
                 }
-                controller.navigationController?.pushViewController(profileVC, animated: true)
+               controller.navigationController?.pushViewController(profileVC, animated: true)
             case .photos:
                 controller.navigationController?.pushViewController(PhotosViewController(), animated: true)
         }

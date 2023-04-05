@@ -22,6 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //         try! realm.write({
 //                   self.realm.deleteAll()
 //               })
+       
+       
         return true
     }
     

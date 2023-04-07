@@ -9,6 +9,7 @@ import UIKit
 //import FirebaseAuth
 import RealmSwift
 
+
 protocol LogInViewControllerDelegate: AnyObject {
 //    func checkCredentials(login: String, password: String, completion: ((_ isSignUp: Bool,_ user: User, _ errorText: String)-> Void)?)
     func signUp(login: String, password: String)

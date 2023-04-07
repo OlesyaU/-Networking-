@@ -28,6 +28,8 @@
 		76C31EDC28E42A0C0057B417 /* FeedCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C31EDB28E42A0C0057B417 /* FeedCoordinator.swift */; };
 		76C31EDF28E42A630057B417 /* ProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C31EDE28E42A630057B417 /* ProfileCoordinator.swift */; };
 		76C31EE128E9B4340057B417 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C31EE028E9B4340057B417 /* Coordinator.swift */; };
+		76C3AFD829DEEB250048F6F8 /* FavoritePost.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 76C3AFD629DEEB250048F6F8 /* FavoritePost.xcdatamodeld */; };
+		76C3AFDA29DFD71A0048F6F8 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C3AFD929DFD71A0048F6F8 /* CoreDataManager.swift */; };
 		76C50B862981E27400C2DAC3 /* InfoJSONModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C50B852981E27400C2DAC3 /* InfoJSONModel.swift */; };
 		76C8FB2F29D8A78F001CB9EE /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 76C8FB2E29D8A78F001CB9EE /* Realm */; };
 		76C8FB3129D8A78F001CB9EE /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 76C8FB3029D8A78F001CB9EE /* RealmSwift */; };
@@ -104,6 +106,8 @@
 		76C31EDB28E42A0C0057B417 /* FeedCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCoordinator.swift; sourceTree = "<group>"; };
 		76C31EDE28E42A630057B417 /* ProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinator.swift; sourceTree = "<group>"; };
 		76C31EE028E9B4340057B417 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		76C3AFD729DEEB250048F6F8 /* FavoritePost.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FavoritePost.xcdatamodel; sourceTree = "<group>"; };
+		76C3AFD929DFD71A0048F6F8 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		76C50B852981E27400C2DAC3 /* InfoJSONModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoJSONModel.swift; sourceTree = "<group>"; };
 		76CF553828FD6762002E056E /* WrongViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrongViewController.swift; sourceTree = "<group>"; };
 		76CF874027DF42C10010F427 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
@@ -183,6 +187,7 @@
 		7607E4C127D9FAB1005D58DF /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
+				76C3AFDB29E025270048F6F8 /* CoreData */,
 				76343B1A293C6E6200599FE0 /* Error */,
 				76C31ED728E2F99E0057B417 /* MainTabBarController */,
 				76C31ED328E2F7EA0057B417 /* Coordinators */,
@@ -282,6 +287,15 @@
 				76C31EDE28E42A630057B417 /* ProfileCoordinator.swift */,
 			);
 			path = ProfileCoordinator;
+			sourceTree = "<group>";
+		};
+		76C3AFDB29E025270048F6F8 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				76C3AFD929DFD71A0048F6F8 /* CoreDataManager.swift */,
+				76C3AFD629DEEB250048F6F8 /* FavoritePost.xcdatamodeld */,
+			);
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 		76C50B8729837E4400C2DAC3 /* Model */ = {
@@ -686,7 +700,9 @@
 				76D5373A280B22B700A5578B /* Photo.swift in Sources */,
 				760AA7ED29C133D1006FDBBB /* CheckerService.swift in Sources */,
 				76EA962A285F738E00A9B5F8 /* Checker.swift in Sources */,
+				76C3AFD829DEEB250048F6F8 /* FavoritePost.xcdatamodeld in Sources */,
 				76CF876D27E0D4D90010F427 /* InfoViewController.swift in Sources */,
+				76C3AFDA29DFD71A0048F6F8 /* CoreDataManager.swift in Sources */,
 				76EA95F72856486800A9B5F8 /* User.swift in Sources */,
 				76EA96332869D92B00A9B5F8 /* CustomButton.swift in Sources */,
 				7607E4C527D9FAB1005D58DF /* SceneDelegate.swift in Sources */,
@@ -1052,6 +1068,19 @@
 			productName = iOSIntPackage;
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		76C3AFD629DEEB250048F6F8 /* FavoritePost.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				76C3AFD729DEEB250048F6F8 /* FavoritePost.xcdatamodel */,
+			);
+			currentVersion = 76C3AFD729DEEB250048F6F8 /* FavoritePost.xcdatamodel */;
+			path = FavoritePost.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 7607E4B727D9FAB1005D58DF /* Project object */;
 }

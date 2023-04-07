@@ -5,7 +5,7 @@
 //  Created by Олеся on 12.06.2022.
 //
 
-import Foundation
+//import Foundation
 import UIKit
 import RealmSwift
 
@@ -14,18 +14,18 @@ final class User: Object, UserService {
     @Persisted var email = ""
     @Persisted var password = ""
     @Persisted var isLogin = false
-    
+
     var fullName: String?
     var avatar: UIImage?
     var status: String?
-    
+
     convenience init(email: String,password: String) {
         self.init()
         self.email = email
         self.password = password
         self.isLogin = isLogin
     }
-    
+
     func getUser(name: String) -> User? {
         self
     }

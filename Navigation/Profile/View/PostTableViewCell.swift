@@ -10,11 +10,16 @@ import StorageService
 
 class PostTableViewCell: UITableViewCell {
     
-    private let image: UIImageView = {
+    private lazy var image: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         image.contentMode = .scaleAspectFit
         image.backgroundColor = .black
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(favoritePost))
+        image.isUserInteractionEnabled = true
+        image.isMultipleTouchEnabled = true
+        gesture.numberOfTapsRequired = 2
+        image.addGestureRecognizer(gesture)
         return image
     }()
     
@@ -101,6 +106,9 @@ class PostTableViewCell: UITableViewCell {
         descriptionLabel.text = post.description
         likesLabel.text = "Likes: \(String(describing: post.likes))"
         viewsLabel.text = "Views: \(String(describing: post.views))"
+    }
+    @objc func favoritePost(){
+        print("Gesture in Post")
     }
     
 }

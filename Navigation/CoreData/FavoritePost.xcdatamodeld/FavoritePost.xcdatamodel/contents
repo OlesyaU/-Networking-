@@ -5,13 +5,13 @@
         <attribute name="fullName" optional="YES" attributeType="String"/>
         <attribute name="isLogin" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="password" optional="YES" attributeType="String"/>
-        <relationship name="favoritePosts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="FavoritePost" inverseName="userLoged" inverseEntity="FavoritePost"/>
+        <relationship name="favoritePost" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="FavoritePost" inverseName="userLoged" inverseEntity="FavoritePost"/>
     </entity>
     <entity name="FavoritePost" representedClassName="FavoritePost" syncable="YES" codeGenerationType="class">
         <attribute name="postDescription" optional="YES" attributeType="String"/>
         <attribute name="postImage" optional="YES" attributeType="Binary"/>
         <attribute name="postUser" optional="YES" attributeType="String"/>
         <attribute name="user" optional="YES" attributeType="String"/>
-        <relationship name="userLoged" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDUser" inverseName="favoritePosts" inverseEntity="CDUser"/>
+        <relationship name="userLoged" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDUser" inverseName="favoritePost" inverseEntity="CDUser"/>
     </entity>
 </model>

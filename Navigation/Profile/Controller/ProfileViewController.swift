@@ -9,19 +9,24 @@ import UIKit
 import StorageService
 import iOSIntPackage
 
+
 protocol UserService: AnyObject {
     func getUser(name: String) -> User?
 }
 
 class ProfileViewController: UIViewController {
     
+    enum ShowContent{
+        case allUserInfo
+        case favoritePosts
+    }
     private let posts =  Post.posts()
     private let filter = ImageProcessor()
     private var user: UserService?
     var nameFromLogin: (() -> String)?
     var coordinator: ProfileCoordinator?
-    
-    
+    private let coreDataManager = CoreDataManager.shared
+    var setContent: ShowContent = .allUserInfo
     
     private lazy var tableView: UITableView = {
         let table = UITableView(frame: .zero, style: .grouped)
@@ -55,8 +60,9 @@ class ProfileViewController: UIViewController {
 #else
         view.backgroundColor = .cyan
 #endif
-        title = "Profile"
+//        title = "Profile"
         layout()
+//        setInfo(withCase: .allUserInfo)
     }
     
     private func layout() {
@@ -68,10 +74,22 @@ class ProfileViewController: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
+//    
+//    func setInfo(withCase: ShowContent) {
+//        switch withCase {
+//            case .allUserInfo:
+//                title = "Profile"
+//              
+//                print(" case вся информация Юзера")
+//            case .favoritePosts:
+//              
+//                print(" case .favoritePosts")
+//        }
+//    }
  
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        if indexPath.row == 0 {
+        if indexPath.row == 0, setContent == .allUserInfo {
             navigationController?.pushViewController(PhotosViewController(), animated: true)
         }
     }
@@ -89,7 +107,7 @@ extension ProfileViewController: UITableViewDataSource {
         guard let firstCell = tableView.dequeueReusableCell(withIdentifier: PhotosTableViewCell.identifier, for: indexPath) as?  PhotosTableViewCell else {return UITableViewCell()}
         guard let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier, for: indexPath) as? PostTableViewCell else {return UITableViewCell()}
         
-        if  indexPath.row == 0 {
+        if  indexPath.row == 0, setContent == .allUserInfo {
             firstCell.configure(photos: Photo.getPhotos())
             return firstCell
         } else {
@@ -121,6 +139,10 @@ extension ProfileViewController: UITableViewDelegate {
         let header = ProfileHeaderView(frame: .zero)
         guard let user = user?.getUser(name: name) else { return nil}
         header.configure(user: user)
-        return header
+        if setContent == .allUserInfo {
+            return header
+        } else {
+            return nil
+        }
     }
 }

@@ -76,6 +76,7 @@ final class ProfileCoordinator: Coordinator {
             case .profile(let user):
                 let profileVC = ProfileViewController(user: user)
                 profileVC.coordinator = self
+                profileVC.setContent = .allUserInfo
                 profileVC.nameFromLogin = {
                     user.fullName ?? "No name yet"
                 }

@@ -40,11 +40,11 @@ class ProfileViewController: UIViewController {
     }()
     
     init(user: UserService) {
-//#if DEBUG
-//        self.user = TestUserService()
-//#else
-//        self.user = CurrentUserService()
-//#endif
+        //#if DEBUG
+        //        self.user = TestUserService()
+        //#else
+        //        self.user = CurrentUserService()
+        //#endif
         self.user = user
         super.init(nibName: nil, bundle: nil)
     }
@@ -60,9 +60,14 @@ class ProfileViewController: UIViewController {
 #else
         view.backgroundColor = .cyan
 #endif
-//        title = "Profile"
+        //        title = "Profile"
         layout()
-//        setInfo(withCase: .allUserInfo)
+        //        setInfo(withCase: .allUserInfo)
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+        
     }
     
     private func layout() {
@@ -74,19 +79,7 @@ class ProfileViewController: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
-//    
-//    func setInfo(withCase: ShowContent) {
-//        switch withCase {
-//            case .allUserInfo:
-//                title = "Profile"
-//              
-//                print(" case вся информация Юзера")
-//            case .favoritePosts:
-//              
-//                print(" case .favoritePosts")
-//        }
-//    }
- 
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.row == 0, setContent == .allUserInfo {
@@ -98,9 +91,12 @@ class ProfileViewController: UIViewController {
 extension ProfileViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return posts.count
+        if setContent == .allUserInfo {
+            return posts.count
+        } else {
+            return coreDataManager.favoritesPosts.count
+        }
     }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let post = posts[indexPath.row]
         
@@ -110,7 +106,7 @@ extension ProfileViewController: UITableViewDataSource {
         if  indexPath.row == 0, setContent == .allUserInfo {
             firstCell.configure(photos: Photo.getPhotos())
             return firstCell
-        } else {
+        } else  if  setContent == .allUserInfo {
             var originImage = UIImage(named: post.image)
             switch indexPath.row {
                 case 1:
@@ -128,7 +124,11 @@ extension ProfileViewController: UITableViewDataSource {
             }
             cell.configure(post: post)
             return cell
+        } else if setContent == .favoritePosts {
+            let favoritePost = coreDataManager.favoritesPosts[indexPath.row]
+            cell.configureFavorite(favoritePost: favoritePost)
         }
+        return cell
     }
 }
 

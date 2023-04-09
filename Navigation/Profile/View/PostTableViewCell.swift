@@ -11,7 +11,7 @@ import StorageService
 
 class PostTableViewCell: UITableViewCell {
     
-   
+    private let coreDataManager = CoreDataManager.shared
     
     private lazy var image: UIImageView = {
         let image = UIImageView()
@@ -110,8 +110,17 @@ class PostTableViewCell: UITableViewCell {
         likesLabel.text = "Likes: \(String(describing: post.likes))"
         viewsLabel.text = "Views: \(String(describing: post.views))"
     }
+    func configureFavorite(favoritePost: FavoritePost) {
+        image.image = UIImage(data: favoritePost.postImage!)
+        authorLabel.text = favoritePost.postUser
+        descriptionLabel.text = favoritePost.postDescription
+    }
+    
     @objc func favoritePost(){
         print("Gesture in Post")
+
+        coreDataManager.addNewFavoritePost(nameUser: authorLabel.text ?? "no name author", image: image.image ?? UIImage(), description: descriptionLabel.text ?? " without description")
     }
+    
     
 }

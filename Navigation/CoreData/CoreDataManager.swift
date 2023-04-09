@@ -6,6 +6,7 @@
 //
 
 import CoreData
+import UIKit
  
 class CoreDataManager{
     
@@ -47,7 +48,7 @@ class CoreDataManager{
     
     //MARK: - CDUser, FavoritesPosts - CoreData
     
-var favoritesPosts = [FavoritePost]()
+    var favoritesPosts: [FavoritePost] = []
     var cdUser: CDUser?
 
     func reloadPosts(){
@@ -57,10 +58,10 @@ var favoritesPosts = [FavoritePost]()
         self.favoritesPosts = favotitePosts
     }
 
-    func addNewFavoritePost(nameUser: String, image: Data, description: String){
+    func addNewFavoritePost(nameUser: String, image: UIImage, description: String){
         let newFavorite = FavoritePost(context: persistentContainer.viewContext)
         newFavorite.postUser = nameUser
-        newFavorite.postImage = image
+        newFavorite.postImage = image.pngData()
         newFavorite.postDescription = description
         saveContext()
         reloadPosts()

@@ -48,7 +48,6 @@ final class MainCoordinator: Coordinator {
             favoritesVC.navigationController?.navigationBar.isHidden = false
             favoritesVC.tabBarItem.title = "Favorites"
             favoritesVC.tabBarItem.image = UIImage(systemName: "heart")
-//            favoritesVC.setInfo(withCase: .favoritePosts)
             favoritesVC.setContent = .favoritePosts
             vc.viewControllers = [feedVC, loginVC, favoritesVC]
             let nvc = controller as! UINavigationController

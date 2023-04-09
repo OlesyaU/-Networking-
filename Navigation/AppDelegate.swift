@@ -9,11 +9,11 @@
 import UIKit
 //import FirebaseAuth
 //import FirebaseCore
-import RealmSwift
+//import RealmSwift
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    var realm = try! Realm()
+//    var realm = try! Realm()
    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
 //        FirebaseApp.configure()
@@ -42,6 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     func applicationWillTerminate(_ application: UIApplication) {
 //        try?    Auth.auth().signOut()
+        (UIApplication.shared.delegate as? CoreDataManager)?.saveContext()
     }
 }
 

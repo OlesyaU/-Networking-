@@ -36,6 +36,9 @@ final class MainCoordinator: Coordinator {
             loginVC.tabBarItem.title = "Profile"
             
             guard let user = loginVC.coordinator?.user else {
+                vc.viewControllers = [feedVC, loginVC]
+                let nvc = controller as! UINavigationController
+                nvc.pushViewController(vc, animated: false)
                 print("In MAIN COORDINATOR user is lost")
                 return
             }
@@ -44,6 +47,7 @@ final class MainCoordinator: Coordinator {
             //            тут было задание обернуть этот контроллер в навигейшнКонтроллер, но он его и так наследует...поэтому бар просто показала, но запасной вариант оставила(правда тогда чуть коряво выглядит)
             //            let favoritesVC = UINavigationController(rootViewController: ProfileViewController(user: user))
             //            favoritesVC.navigationBar.isHidden = false
+            
             let favoritesVC = ProfileViewController(user: user)
             favoritesVC.navigationController?.navigationBar.isHidden = false
             favoritesVC.tabBarItem.title = "Favorites"

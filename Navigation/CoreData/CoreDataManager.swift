@@ -32,7 +32,7 @@ class CoreDataManager{
 
     // MARK: - Core Data Saving support
 
-    func saveContext () {
+    func saveContext() {
         let context = persistentContainer.viewContext
         if context.hasChanges {
             do {
@@ -44,9 +44,7 @@ class CoreDataManager{
         }
     }
     
-    
-    
-    //MARK: - CDUser, FavoritesPosts - CoreData
+   //MARK: - CDUser, FavoritesPosts - CoreData
     
     var favoritesPosts: [FavoritePost] = []
     var cdUser: CDUser?

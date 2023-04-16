@@ -109,17 +109,19 @@ class LogInViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        navigationController?.navigationBar.isHidden = true
+    
         layout()
-        
+        navigationController?.isNavigationBarHidden = true
         let userFromProfCoord = ProfileCoordinator(controller: self).user
         print("userFromProfCoord \(userFromProfCoord)")
         //        смотреть файлы по этому пути через realmStudio!!!
                 print(realm.configuration.fileURL!)
     }
+   
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationController?.isNavigationBarHidden = true
         nc.addObserver(self, selector: #selector(keyboardShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         nc.addObserver(self, selector: #selector(keyboardHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         nameTextField.text = ""

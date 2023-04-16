@@ -8,6 +8,7 @@
         <relationship name="favoritePost" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="FavoritePost" inverseName="userLoged" inverseEntity="FavoritePost"/>
     </entity>
     <entity name="FavoritePost" representedClassName="FavoritePost" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="postDescription" optional="YES" attributeType="String"/>
         <attribute name="postImage" optional="YES" attributeType="Binary"/>
         <attribute name="postUser" optional="YES" attributeType="String"/>

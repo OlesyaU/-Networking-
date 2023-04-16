@@ -114,11 +114,12 @@ class PostTableViewCell: UITableViewCell {
         image.image = UIImage(data: favoritePost.postImage!)
         authorLabel.text = favoritePost.postUser
         descriptionLabel.text = favoritePost.postDescription
+        
     }
     
     @objc func favoritePost(){
         print("Gesture in Post")
-
+       
         coreDataManager.addNewFavoritePost(nameUser: authorLabel.text ?? "no name author", image: image.image ?? UIImage(), description: descriptionLabel.text ?? " without description")
     }
     

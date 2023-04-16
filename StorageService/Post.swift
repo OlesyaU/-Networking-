@@ -14,6 +14,10 @@ public struct Post {
     public let image: String
     public let likes: Int
     public let views: Int
+    public let id = UUID()
+    
+    
+    
     
     public static func posts() -> [Post] {
         var array = [Post]()
@@ -28,3 +32,4 @@ public struct Post {
     }
     
 }
+

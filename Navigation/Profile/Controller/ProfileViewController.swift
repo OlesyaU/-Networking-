@@ -60,17 +60,19 @@ class ProfileViewController: UIViewController {
 #else
         view.backgroundColor = .cyan
 #endif
-        //        title = "Profile"
+      
         layout()
         //        setInfo(withCase: .allUserInfo)
+     
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
-        
     }
-    
+   
+
     private func layout() {
+
         view.addSubview(tableView)
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -92,9 +94,12 @@ extension ProfileViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if setContent == .allUserInfo {
+            navigationController?.isNavigationBarHidden = false
+          title = "Profile"
             return posts.count
         } else {
-            return coreDataManager.favoritesPosts.count
+            title = "Favorites"
+           return coreDataManager.favoritesPosts.count
         }
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -123,8 +128,11 @@ extension ProfileViewController: UITableViewDataSource {
                     print("its default case from ProfileVC with index \(indexPath.row)")
             }
             cell.configure(post: post)
+            print(post.id)
             return cell
         } else if setContent == .favoritePosts {
+    self.navigationItem.leftBarButtonItem = .init(title: "Choose", style: .plain, target: self, action: #selector(chooseButtonPressed))
+            self.navigationItem.rightBarButtonItem = .init(title: "Cancel", style: .plain, target: self, action: #selector(cancelButtonPressed))
             let favoritePost = coreDataManager.favoritesPosts[indexPath.row]
             cell.configureFavorite(favoritePost: favoritePost)
         }
@@ -144,5 +152,15 @@ extension ProfileViewController: UITableViewDelegate {
         } else {
             return nil
         }
+    }
+    
+}
+extension ProfileViewController {
+
+   @objc func chooseButtonPressed(){
+        print("CHOOSE BUTTON PRESSSSEEDD")
+    }
+    @objc func cancelButtonPressed() {
+        print("CAANNCCEELL BUTTON PRESSSSEEDD")
     }
 }

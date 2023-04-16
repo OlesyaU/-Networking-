@@ -21,7 +21,7 @@ final class MainCoordinator: Coordinator {
         if controller is UINavigationController {
             let vc = MainTabBarController()
             vc.coordinator = self
-            
+        
             let feedModel = FeedModel()
             let feedViewModel = FeedViewModel(model: feedModel)
             let feedCoordinator = FeedCoordinator(controller: controller)
@@ -34,7 +34,8 @@ final class MainCoordinator: Coordinator {
             loginVC.coordinator = ProfileCoordinator(controller: controller)
             loginVC.tabBarItem.image = .init(systemName: "person")
             loginVC.tabBarItem.title = "Profile"
-            
+            loginVC.tabBarController?.tabBar.isHidden = false
+            vc.tabBar.isHidden = false
             guard let user = loginVC.coordinator?.user else {
                 vc.viewControllers = [feedVC, loginVC]
                 let nvc = controller as! UINavigationController
@@ -44,20 +45,17 @@ final class MainCoordinator: Coordinator {
             }
             
             print("user from MAIM COORDINATOR \(user)")
-            //            тут было задание обернуть этот контроллер в навигейшнКонтроллер, но он его и так наследует...поэтому бар просто показала, но запасной вариант оставила(правда тогда чуть коряво выглядит)
-            //            let favoritesVC = UINavigationController(rootViewController: ProfileViewController(user: user))
-            //            favoritesVC.navigationBar.isHidden = false
-            
+   
+
             let favoritesVC = ProfileViewController(user: user)
-            favoritesVC.navigationController?.navigationBar.isHidden = false
+            let navFavorite = UINavigationController(rootViewController: favoritesVC)
             favoritesVC.tabBarItem.title = "Favorites"
             favoritesVC.tabBarItem.image = UIImage(systemName: "heart")
             favoritesVC.setContent = .favoritePosts
-            vc.viewControllers = [feedVC, loginVC, favoritesVC]
+            vc.viewControllers = [feedVC, loginVC,navFavorite]
             let nvc = controller as! UINavigationController
             nvc.pushViewController(vc, animated: false)
-            
-        }
+       }
     }
     
 }

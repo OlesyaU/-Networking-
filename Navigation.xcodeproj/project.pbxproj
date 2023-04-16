@@ -19,6 +19,7 @@
 		76343B19293C6E3400599FE0 /* VCErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76343B18293C6E3400599FE0 /* VCErrors.swift */; };
 		7638594C29BFE5E300440F4C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7638594B29BFE5E300440F4C /* GoogleService-Info.plist */; };
 		7638594D29BFE5E300440F4C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7638594B29BFE5E300440F4C /* GoogleService-Info.plist */; };
+		764ABB1629E49C3B00ED7A59 /* TODO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764ABB1529E49C3B00ED7A59 /* TODO.swift */; };
 		766EF06727F49051004F0607 /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763B9A0127E9FB8300AE78DD /* ProfileHeaderView.swift */; };
 		7670788728450E6300E66B8F /* StorageService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 762C885F2844E13500AFCC07 /* StorageService.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		76819A81296AC27D00ACA674 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76819A80296AC27D00ACA674 /* NetworkService.swift */; };
@@ -99,6 +100,7 @@
 		76343B18293C6E3400599FE0 /* VCErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCErrors.swift; sourceTree = "<group>"; };
 		7638594B29BFE5E300440F4C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		763B9A0127E9FB8300AE78DD /* ProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
+		764ABB1529E49C3B00ED7A59 /* TODO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TODO.swift; sourceTree = "<group>"; };
 		76819A80296AC27D00ACA674 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		76819A82296AC2FC00ACA674 /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
 		76C31ED528E2F8390057B417 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
@@ -206,6 +208,7 @@
 				7607E4CD27D9FAB3005D58DF /* LaunchScreen.storyboard */,
 				7607E4D027D9FAB3005D58DF /* Info.plist */,
 				7638594B29BFE5E300440F4C /* GoogleService-Info.plist */,
+				764ABB1529E49C3B00ED7A59 /* TODO.swift */,
 			);
 			path = Navigation;
 			sourceTree = "<group>";
@@ -702,6 +705,7 @@
 				76EA962A285F738E00A9B5F8 /* Checker.swift in Sources */,
 				76C3AFD829DEEB250048F6F8 /* FavoritePost.xcdatamodeld in Sources */,
 				76CF876D27E0D4D90010F427 /* InfoViewController.swift in Sources */,
+				764ABB1629E49C3B00ED7A59 /* TODO.swift in Sources */,
 				76C3AFDA29DFD71A0048F6F8 /* CoreDataManager.swift in Sources */,
 				76EA95F72856486800A9B5F8 /* User.swift in Sources */,
 				76EA96332869D92B00A9B5F8 /* CustomButton.swift in Sources */,

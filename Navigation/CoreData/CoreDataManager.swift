@@ -56,7 +56,7 @@ class CoreDataManager{
         self.favoritesPosts = favotitePosts
     }
 
-    func addNewFavoritePost(nameUser: String, image: UIImage, description: String){
+    func addNewFavoritePost(nameUser: String, image: UIImage, description: String, id: String? = nil){
         let newFavorite = FavoritePost(context: persistentContainer.viewContext)
         newFavorite.postUser = nameUser
         newFavorite.postImage = image.pngData()

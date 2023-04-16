@@ -92,6 +92,7 @@ final class ProfileCoordinator: Coordinator {
                     user.fullName ?? "No name yet"
                 }
                controller.navigationController?.pushViewController(profileVC, animated: true)
+        
             case .photos:
                 controller.navigationController?.pushViewController(PhotosViewController(), animated: true)
         }

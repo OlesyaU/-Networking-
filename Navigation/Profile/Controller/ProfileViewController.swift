@@ -19,10 +19,10 @@ class ProfileViewController: UIViewController, FavoritePostDelegate {
         if bool {
             DispatchQueue.main.async {
                 self.navigationItem.setRightBarButton(.init(title: "♥️", style: .plain, target: self, action: #selector(self.self.rightButtonTapped)), animated: true)
-
+                
                 self.coreDataManager.reloadPosts()
             }
-}
+        }
     }
     
     
@@ -71,46 +71,36 @@ class ProfileViewController: UIViewController, FavoritePostDelegate {
 #else
         view.backgroundColor = .cyan
 #endif
-      
+        
         layout()
         //        setInfo(withCase: .allUserInfo)
-     
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationItem.setRightBarButton(.init(title: "♥️", style: .plain, target: self, action: #selector(rightButtonTapped)), animated: true)
         navigationItem.setLeftBarButton(.init(title: "Выйти", style: .plain, target: self, action: #selector(leftButtonTapped)), animated: true)
         if coreDataManager.favoritesPosts == [] {
- navigationItem.rightBarButtonItem = nil
+            navigationItem.rightBarButtonItem = nil
         }
         tableView.reloadData()
     }
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        if coreDataManager.favoritesPosts == [] {
-            mainCoord?.setUp()
-        }
-    }
+    
     @objc func leftButtonTapped(){
-        user = nil
         coordinator?.user = user as? User
-        if coreDataManager.favoritesPosts != [] {
-            mainCoord?.setUp()
-        }
-//        mainCoord?.setUp()
- navigationController?.popViewController(animated: true)
-        
-   }
+        navigationController?.popViewController(animated: true)
+    }
+    
     @objc func rightButtonTapped(){
-
+        
         setContent = .favoritePosts
-
+        
         coreDataManager.reloadPosts()
         tableView.reloadData()
-   }
-
+    }
+    
     private func layout() {
-
+        
         view.addSubview(tableView)
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -133,11 +123,11 @@ extension ProfileViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if setContent == .allUserInfo {
             navigationController?.isNavigationBarHidden = false
-          title = "Profile"
+            title = "Profile"
             return posts.count
         } else {
             title = "Favorites"
-           return coreDataManager.favoritesPosts.count
+            return coreDataManager.favoritesPosts.count
         }
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -166,10 +156,10 @@ extension ProfileViewController: UITableViewDataSource {
             }
             cell.delegate = self
             cell.configure(post: post)
-           
+            
             return cell
         } else if setContent == .favoritePosts {
-    self.navigationItem.leftBarButtonItem = .init(title: "Choose", style: .plain, target: self, action: #selector(chooseButtonPressed))
+            self.navigationItem.leftBarButtonItem = .init(title: "Choose", style: .plain, target: self, action: #selector(chooseButtonPressed))
             self.navigationItem.rightBarButtonItem = .init(title: "Cancel", style: .plain, target: self, action: #selector(cancelButtonPressed))
             let favoritePost = coreDataManager.favoritesPosts[indexPath.row]
             cell.configureFavorite(favoritePost: favoritePost)
@@ -194,8 +184,8 @@ extension ProfileViewController: UITableViewDelegate {
     
 }
 extension ProfileViewController {
-
-   @objc func chooseButtonPressed(){
+    
+    @objc func chooseButtonPressed(){
         print("CHOOSE BUTTON PRESSSSEEDD")
     }
     @objc func cancelButtonPressed() {

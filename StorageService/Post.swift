@@ -14,12 +14,8 @@ public struct Post {
     public let image: String
     public let likes: Int
     public let views: Int
-    public let id = UUID()
     
-    
-    
-    
-    public static func posts() -> [Post] {
+  public static func posts() -> [Post] {
         var array = [Post]()
         array.append(Post(author: "Джерри", description: "Мы с томом очень весело проводим время", image: "Джерри с Томом", likes: 20, views: 24))
         array.append(Post(author: "Утёнок", description: "Улетаю отдохнуть, друзья. Скоро вернусь!", image: "Утёнок", likes: 230, views: 470))

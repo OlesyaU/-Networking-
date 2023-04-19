@@ -126,16 +126,23 @@ class LogInViewController: UIViewController {
         nc.addObserver(self, selector: #selector(keyboardHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         nameTextField.text = ""
         passwordTextField.text = ""
+        nameTextField.isEnabled = true
+        passwordTextField.isEnabled = true
         nameTextField.placeholder = "Enter your email"
         nameTextField.keyboardType = .emailAddress
         passwordTextField.placeholder = "Enter your password 6 or more symbols"
         logInButton.isEnabled = false
+    }
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        logInButton.isEnabled = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         nc.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         nc.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+        nameTextField.isEnabled = false
+        passwordTextField.isEnabled = false
     }
     
     func getName() -> String {

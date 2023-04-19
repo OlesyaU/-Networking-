@@ -14,7 +14,13 @@ protocol UserService: AnyObject {
     func getUser(name: String) -> User?
 }
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: UIViewController, FavPostDelegate {
+    func favPost(boo: Bool) {
+        if boo {
+    navigationItem.setRightBarButton(.init(title: "♥️", style: .plain, target: self, action: #selector(rightButtonTapped)), animated: true)
+}
+    }
+    
     
     enum ShowContent{
         case allUserInfo
@@ -27,6 +33,7 @@ class ProfileViewController: UIViewController {
     var coordinator: ProfileCoordinator?
     private let coreDataManager = CoreDataManager.shared
     var setContent: ShowContent = .allUserInfo
+    var mainCoord: MainCoordinator?
     
     private lazy var tableView: UITableView = {
         let table = UITableView(frame: .zero, style: .grouped)
@@ -67,9 +74,36 @@ class ProfileViewController: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationItem.setRightBarButton(.init(title: "♥️", style: .plain, target: self, action: #selector(rightButtonTapped)), animated: true)
+        navigationItem.setLeftBarButton(.init(title: "Выйти", style: .plain, target: self, action: #selector(leftButtonTapped)), animated: true)
+        if coreDataManager.favoritesPosts == [] {
+ navigationItem.rightBarButtonItem = nil
+        }
         tableView.reloadData()
     }
-   
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if coreDataManager.favoritesPosts != [] {
+            mainCoord?.setUp()
+        }
+    }
+    @objc func leftButtonTapped(){
+        user = nil
+        coordinator?.user = user as? User
+        if coreDataManager.favoritesPosts != [], user == nil {
+            mainCoord?.setUp()
+        }
+//        mainCoord?.setUp()
+ navigationController?.popViewController(animated: true)
+        
+   }
+    @objc func rightButtonTapped(){
+
+        setContent = .favoritePosts
+
+        coreDataManager.reloadPosts()
+        tableView.reloadData()
+   }
 
     private func layout() {
 
@@ -107,7 +141,6 @@ extension ProfileViewController: UITableViewDataSource {
         
         guard let firstCell = tableView.dequeueReusableCell(withIdentifier: PhotosTableViewCell.identifier, for: indexPath) as?  PhotosTableViewCell else {return UITableViewCell()}
         guard let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier, for: indexPath) as? PostTableViewCell else {return UITableViewCell()}
-        
         if  indexPath.row == 0, setContent == .allUserInfo {
             firstCell.configure(photos: Photo.getPhotos())
             return firstCell
@@ -127,8 +160,9 @@ extension ProfileViewController: UITableViewDataSource {
                 default:
                     print("its default case from ProfileVC with index \(indexPath.row)")
             }
+            cell.delegate = self
             cell.configure(post: post)
-            print(post.id)
+           
             return cell
         } else if setContent == .favoritePosts {
     self.navigationItem.leftBarButtonItem = .init(title: "Choose", style: .plain, target: self, action: #selector(chooseButtonPressed))

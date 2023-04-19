@@ -8,11 +8,15 @@
 import UIKit
 import StorageService
 
+protocol FavPostDelegate {
+    func favPost(boo: Bool)
+}
+
 
 class PostTableViewCell: UITableViewCell {
     
     private let coreDataManager = CoreDataManager.shared
-    
+    var delegate : FavPostDelegate?
     private lazy var image: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
@@ -112,16 +116,22 @@ class PostTableViewCell: UITableViewCell {
     }
     func configureFavorite(favoritePost: FavoritePost) {
         image.image = UIImage(data: favoritePost.postImage!)
-        authorLabel.text = favoritePost.postUser
+        authorLabel.text = favoritePost.postAuthor
         descriptionLabel.text = favoritePost.postDescription
         
     }
     
     @objc func favoritePost(){
         print("Gesture in Post")
-       
-        coreDataManager.addNewFavoritePost(nameUser: authorLabel.text ?? "no name author", image: image.image ?? UIImage(), description: descriptionLabel.text ?? " without description")
+        coreDataManager.boo = { n in
+            print(n)
+            self.delegate?.favPost(boo: n)
+        }
+       coreDataManager.addNewFavoritePost(nameUser: authorLabel.text ?? "no name author",
+                                          image: image.image ?? UIImage(),
+                                          description: descriptionLabel.text ?? " without description")
     }
+    
     
     
 }

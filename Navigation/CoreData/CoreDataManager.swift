@@ -11,6 +11,7 @@ import UIKit
 class CoreDataManager{
     
     static let shared = CoreDataManager()
+    var boo: ((Bool)-> Void)?
     
     init(){
         reloadPosts()
@@ -46,7 +47,14 @@ class CoreDataManager{
     
    //MARK: - CDUser, FavoritesPosts - CoreData
     
-    var favoritesPosts: [FavoritePost] = []
+    var favoritesPosts: [FavoritePost] = [] {
+        didSet {
+            print("\(favoritesPosts)")
+            boo?(true)
+        
+           
+        }
+    }
     var cdUser: CDUser?
 
     func reloadPosts(){
@@ -56,12 +64,20 @@ class CoreDataManager{
         self.favoritesPosts = favotitePosts
     }
 
-    func addNewFavoritePost(nameUser: String, image: UIImage, description: String, id: String? = nil){
-        let newFavorite = FavoritePost(context: persistentContainer.viewContext)
-        newFavorite.postUser = nameUser
-        newFavorite.postImage = image.pngData()
-        newFavorite.postDescription = description
-        saveContext()
+    func addNewFavoritePost(nameUser: String, image: UIImage, description: String){
+        
+        persistentContainer.performBackgroundTask { backgroundContext in
+            let newFavorite = FavoritePost(context: backgroundContext)
+            newFavorite.postAuthor = nameUser
+            newFavorite.postImage = image.pngData()
+            newFavorite.postDescription = description
+            do {
+                try? backgroundContext.save()
+                
+            } catch {
+                print(error)
+            }
+        }
         reloadPosts()
     }
 

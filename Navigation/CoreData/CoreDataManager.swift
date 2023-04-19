@@ -11,7 +11,7 @@ import UIKit
 class CoreDataManager{
     
     static let shared = CoreDataManager()
-    var boo: ((Bool)-> Void)?
+    var isFavorite: ((Bool)-> Void)?
     
     init(){
         reloadPosts()
@@ -49,18 +49,16 @@ class CoreDataManager{
     
     var favoritesPosts: [FavoritePost] = [] {
         didSet {
-            print("\(favoritesPosts)")
-            boo?(true)
-        
-           
+            print("\(favoritesPosts.count)")
+            isFavorite?(true)
         }
     }
+    
     var cdUser: CDUser?
 
     func reloadPosts(){
         let request = FavoritePost.fetchRequest()
-     
-        let favotitePosts = (try? persistentContainer.viewContext.fetch(request)) ?? []
+      let favotitePosts = (try? persistentContainer.viewContext.fetch(request)) ?? []
         self.favoritesPosts = favotitePosts
     }
 
@@ -81,7 +79,7 @@ class CoreDataManager{
         reloadPosts()
     }
 
-    func deleteFolder(favoritePost: FavoritePost){
+    func deleteFavoritePost(favoritePost: FavoritePost){
         persistentContainer.viewContext.delete(favoritePost)
         saveContext()
         reloadPosts()

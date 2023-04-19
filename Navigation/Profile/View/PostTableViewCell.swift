@@ -8,21 +8,23 @@
 import UIKit
 import StorageService
 
-protocol FavPostDelegate {
-    func favPost(boo: Bool)
+protocol FavoritePostDelegate {
+    func favoritePostTap(bool: Bool)
 }
 
 
 class PostTableViewCell: UITableViewCell {
     
     private let coreDataManager = CoreDataManager.shared
-    var delegate : FavPostDelegate?
+    var delegate: FavoritePostDelegate?
+    
     private lazy var image: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         image.contentMode = .scaleAspectFit
         image.backgroundColor = .black
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(favoritePost))
+        let gesture = UITapGestureRecognizer(target: self,
+                                             action: #selector(favoritePost))
         image.isUserInteractionEnabled = true
         image.isMultipleTouchEnabled = true
         gesture.numberOfTapsRequired = 2
@@ -114,24 +116,21 @@ class PostTableViewCell: UITableViewCell {
         likesLabel.text = "Likes: \(String(describing: post.likes))"
         viewsLabel.text = "Views: \(String(describing: post.views))"
     }
+    
     func configureFavorite(favoritePost: FavoritePost) {
         image.image = UIImage(data: favoritePost.postImage!)
         authorLabel.text = favoritePost.postAuthor
         descriptionLabel.text = favoritePost.postDescription
-        
     }
     
     @objc func favoritePost(){
         print("Gesture in Post")
-        coreDataManager.boo = { n in
-            print(n)
-            self.delegate?.favPost(boo: n)
+        coreDataManager.isFavorite = { bool in
+            print(bool)
+            self.delegate?.favoritePostTap(bool: bool)
         }
        coreDataManager.addNewFavoritePost(nameUser: authorLabel.text ?? "no name author",
                                           image: image.image ?? UIImage(),
-                                          description: descriptionLabel.text ?? " without description")
+                                          description: descriptionLabel.text ?? "without description")
     }
-    
-    
-    
 }

@@ -14,10 +14,14 @@ protocol UserService: AnyObject {
     func getUser(name: String) -> User?
 }
 
-class ProfileViewController: UIViewController, FavPostDelegate {
-    func favPost(boo: Bool) {
-        if boo {
-    navigationItem.setRightBarButton(.init(title: "♥️", style: .plain, target: self, action: #selector(rightButtonTapped)), animated: true)
+class ProfileViewController: UIViewController, FavoritePostDelegate {
+    func favoritePostTap(bool: Bool) {
+        if bool {
+            DispatchQueue.main.async {
+                self.navigationItem.setRightBarButton(.init(title: "♥️", style: .plain, target: self, action: #selector(self.self.rightButtonTapped)), animated: true)
+
+                self.coreDataManager.reloadPosts()
+            }
 }
     }
     
@@ -83,14 +87,14 @@ class ProfileViewController: UIViewController, FavPostDelegate {
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        if coreDataManager.favoritesPosts != [] {
+        if coreDataManager.favoritesPosts == [] {
             mainCoord?.setUp()
         }
     }
     @objc func leftButtonTapped(){
         user = nil
         coordinator?.user = user as? User
-        if coreDataManager.favoritesPosts != [], user == nil {
+        if coreDataManager.favoritesPosts != [] {
             mainCoord?.setUp()
         }
 //        mainCoord?.setUp()

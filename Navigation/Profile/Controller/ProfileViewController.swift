@@ -213,6 +213,19 @@ extension ProfileViewController: FavoritePostDelegate {
 extension ProfileViewController {
     
     @objc func chooseButtonPressed(){
+        
+        let aleart = UIAlertController(title: "Выбрать", message: "Введите имя автора поста", preferredStyle: .alert)
+        aleart.addTextField()
+        guard let name = aleart.textFields?[0].text else {
+            print("No NAME FROM TEXTFIELD ")
+            return
+        }
+        
+        aleart.addAction(UIAlertAction(title: "Начать выбор", style: .destructive, handler: {_ in
+//            вот тут надо вызвать метод кордата менеджера по поиску по имени
+            print("!!!метод из алерта !!!")
+        }))
+        self.present(aleart, animated: true)
         print("CHOOSE BUTTON PRESSSSEEDD")
     }
     @objc func cancelButtonPressed() {

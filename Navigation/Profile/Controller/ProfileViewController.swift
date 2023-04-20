@@ -70,7 +70,6 @@ class ProfileViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationItem.rightBarButtonItem?.isEnabled = true
         navigationItem.setRightBarButton(.init(title: "♥️", style: .plain, target: self, action: #selector(rightButtonTapped)), animated: true)
         navigationItem.setLeftBarButton(.init(title: "Выйти", style: .plain, target: self, action: #selector(leftButtonTapped)), animated: true)
         if coreDataManager.favoritesPosts == [] {
@@ -110,10 +109,12 @@ class ProfileViewController: UIViewController {
     func contextualDeleteAction(forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
         let action = UIContextualAction(style: .destructive, title: "Delete") { (contextAction: UIContextualAction, sourceView: UIView, completionHandler: (Bool) -> Void) in
             let post = self.coreDataManager.favoritesPosts[indexPath.row]
-            self.coreDataManager.favoritesPosts.remove(at: indexPath.row)
             self.coreDataManager.deleteFavoritePost(favoritePost: post)
             self.tableView.deleteRows(at: [indexPath], with: .left)
-
+            if self.coreDataManager.favoritesPosts.count == 0 {
+                self.navigationItem.rightBarButtonItem = nil
+                self.navigationController?.navigationItem.setLeftBarButton(.init(title: "Выйти", style: .plain, target: self, action: #selector(self.leftButtonTapped)), animated: true)
+            }
             print("Deleting. Favorites count is  \(self.coreDataManager.favoritesPosts.count)")
             completionHandler(true)
         }
@@ -133,6 +134,7 @@ extension ProfileViewController: UITableViewDataSource {
             return coreDataManager.favoritesPosts.count
         }
     }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let post = posts[indexPath.row]
         
@@ -193,14 +195,13 @@ extension ProfileViewController: UITableViewDelegate {
         let swipeConfig = UISwipeActionsConfiguration(actions: [deleteAction])
         return swipeConfig
     }
-    
-    
 }
+
 extension ProfileViewController: FavoritePostDelegate {
     func favoritePostTap(bool: Bool) {
             if bool {
+                if self.coreDataManager.favoritesPosts == [], setContent == .allUserInfo {
                 DispatchQueue.main.async {
-                    if self.coreDataManager.favoritesPosts == [] {
                         self.navigationItem.setRightBarButton(.init(title: "♥️", style: .plain, target: self, action: #selector(self.self.rightButtonTapped)), animated: true)
                     }
                     self.tableView.reloadData()

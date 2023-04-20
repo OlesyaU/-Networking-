@@ -14,23 +14,14 @@ protocol UserService: AnyObject {
     func getUser(name: String) -> User?
 }
 
-class ProfileViewController: UIViewController, FavoritePostDelegate {
-    func favoritePostTap(bool: Bool) {
-        if bool {
-            DispatchQueue.main.async {
-                self.navigationItem.setRightBarButton(.init(title: "♥️", style: .plain, target: self, action: #selector(self.self.rightButtonTapped)), animated: true)
-                
-                self.coreDataManager.reloadPosts()
-            }
-        }
-    }
+class ProfileViewController: UIViewController {
     
-    
-    enum ShowContent{
+  enum ShowContent{
         case allUserInfo
         case favoritePosts
     }
-    private let posts =  Post.posts()
+    
+    private var posts =  Post.posts()
     private let filter = ImageProcessor()
     private var user: UserService?
     var nameFromLogin: (() -> String)?
@@ -73,11 +64,13 @@ class ProfileViewController: UIViewController, FavoritePostDelegate {
 #endif
         
         layout()
+        
         //        setInfo(withCase: .allUserInfo)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationItem.rightBarButtonItem?.isEnabled = true
         navigationItem.setRightBarButton(.init(title: "♥️", style: .plain, target: self, action: #selector(rightButtonTapped)), animated: true)
         navigationItem.setLeftBarButton(.init(title: "Выйти", style: .plain, target: self, action: #selector(leftButtonTapped)), animated: true)
         if coreDataManager.favoritesPosts == [] {
@@ -92,11 +85,9 @@ class ProfileViewController: UIViewController, FavoritePostDelegate {
     }
     
     @objc func rightButtonTapped(){
-        
-        setContent = .favoritePosts
-        
-        coreDataManager.reloadPosts()
-        tableView.reloadData()
+           setContent = .favoritePosts
+           coreDataManager.reloadPosts()
+            tableView.reloadData()
     }
     
     private func layout() {
@@ -115,6 +106,18 @@ class ProfileViewController: UIViewController, FavoritePostDelegate {
         if indexPath.row == 0, setContent == .allUserInfo {
             navigationController?.pushViewController(PhotosViewController(), animated: true)
         }
+    }
+    func contextualDeleteAction(forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
+        let action = UIContextualAction(style: .destructive, title: "Delete") { (contextAction: UIContextualAction, sourceView: UIView, completionHandler: (Bool) -> Void) in
+            let post = self.coreDataManager.favoritesPosts[indexPath.row]
+            self.coreDataManager.favoritesPosts.remove(at: indexPath.row)
+            self.coreDataManager.deleteFavoritePost(favoritePost: post)
+            self.tableView.deleteRows(at: [indexPath], with: .left)
+
+            print("Deleting. Favorites count is  \(self.coreDataManager.favoritesPosts.count)")
+            completionHandler(true)
+        }
+    return action
     }
 }
 
@@ -181,8 +184,31 @@ extension ProfileViewController: UITableViewDelegate {
             return nil
         }
     }
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .none
+    }
+  
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = self.contextualDeleteAction(forRowAtIndexPath: indexPath)
+        let swipeConfig = UISwipeActionsConfiguration(actions: [deleteAction])
+        return swipeConfig
+    }
+    
     
 }
+extension ProfileViewController: FavoritePostDelegate {
+    func favoritePostTap(bool: Bool) {
+            if bool {
+                DispatchQueue.main.async {
+                    if self.coreDataManager.favoritesPosts == [] {
+                        self.navigationItem.setRightBarButton(.init(title: "♥️", style: .plain, target: self, action: #selector(self.self.rightButtonTapped)), animated: true)
+                    }
+                    self.tableView.reloadData()
+                }
+            }
+        }
+}
+
 extension ProfileViewController {
     
     @objc func chooseButtonPressed(){

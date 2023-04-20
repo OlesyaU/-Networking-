@@ -63,7 +63,6 @@ class CoreDataManager{
     }
 
     func addNewFavoritePost(nameUser: String, image: UIImage, description: String){
-        
         persistentContainer.performBackgroundTask { backgroundContext in
             let newFavorite = FavoritePost(context: backgroundContext)
             newFavorite.postAuthor = nameUser

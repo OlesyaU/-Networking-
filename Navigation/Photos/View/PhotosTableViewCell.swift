@@ -65,6 +65,7 @@ class PhotosTableViewCell: UITableViewCell {
         let constraint: CGFloat = 12
         let heightConst: CGFloat = 8
         let width: CGFloat = (UIScreen.main.bounds.width - ((constraint * 2) + heightConst * 3))/4
+
         NSLayoutConstraint.activate([
             label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: constraint),
             label.topAnchor.constraint(equalTo: contentView.topAnchor, constant: constraint),

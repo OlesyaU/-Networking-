@@ -12,14 +12,7 @@ final class MainCoordinator: Coordinator {
     
     var controller: UIViewController
     var children: [Coordinator] = []
-//    var user: User? {
-//        didSet {
-//        print("USER FROM DIDSET \(user)")
-////            setUp()
-////         gfhf(user: user)
-//
-//        }
-//    }
+
     
     init(controller: UIViewController) {
         self.controller = controller
@@ -67,11 +60,6 @@ final class MainCoordinator: Coordinator {
 
        }
     }
-    func gfhf(user: User?){
-        if user == nil {
-            setUp()
-        }
-    }
-    
+   
 }
 

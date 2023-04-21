@@ -121,6 +121,8 @@ class PostTableViewCell: UITableViewCell {
         image.image = UIImage(data: favoritePost.postImage!)
         authorLabel.text = favoritePost.postAuthor
         descriptionLabel.text = favoritePost.postDescription
+        viewsLabel.text = String("Views: \(favoritePost.views)")
+        likesLabel.text = String("Likes: \(favoritePost.likes)")
     }
     
     @objc func favoritePost(){
@@ -129,8 +131,5 @@ class PostTableViewCell: UITableViewCell {
             print(bool)
             self.delegate?.favoritePostTap(bool: bool)
         }
-       coreDataManager.addNewFavoritePost(nameUser: authorLabel.text ?? "no name author",
-                                          image: image.image ?? UIImage(),
-                                          description: descriptionLabel.text ?? "without description")
     }
 }

@@ -8,7 +8,7 @@
 import CoreData
 import UIKit
 import StorageService
- 
+
 class CoreDataManager{
     
     static let shared = CoreDataManager()
@@ -17,7 +17,6 @@ class CoreDataManager{
     init(){
         reloadPosts()
     }
-    
     
     lazy var persistentContainer: NSPersistentContainer = {
         
@@ -31,9 +30,8 @@ class CoreDataManager{
         return container
     }()
     
-
     // MARK: - Core Data Saving support
-
+    
     func saveContext() {
         let context = persistentContainer.viewContext
         if context.hasChanges {
@@ -46,22 +44,24 @@ class CoreDataManager{
         }
     }
     
-   //MARK: - CDUser, FavoritesPosts - CoreData
+    //MARK: - CDUser, FavoritesPosts - CoreData
     
-    var favoritesPosts: [FavoritePost] = [] 
+    var favoritesPosts: [FavoritePost] = []
     
     var cdUser: CDUser?
-
+    
     func reloadPosts(){
         let request = FavoritePost.fetchRequest()
-      let favotitePosts = (try? persistentContainer.viewContext.fetch(request)) ?? []
+        let favotitePosts = (try? persistentContainer.viewContext.fetch(request)) ?? []
         self.favoritesPosts = favotitePosts
     }
+    
     func addFavoritePost(post: Post?, completion: @escaping ()-> Void) {
         guard let post else {
             print("Post in CoreDataManeger not found")
             return
         }
+        
         persistentContainer.performBackgroundTask { bacgroundContext in
             let favoritePost = FavoritePost(context: bacgroundContext)
             favoritePost.postAuthor = post.author
@@ -82,37 +82,20 @@ class CoreDataManager{
         }
         reloadPosts()
     }
-
-//    func addNewFavoritePost(nameUser: String, image: UIImage, description: String){
-//        persistentContainer.performBackgroundTask { backgroundContext in
-//            let newFavorite = FavoritePost(context: backgroundContext)
-//            newFavorite.postAuthor = nameUser
-//            newFavorite.postImage = image.pngData()
-//            newFavorite.postDescription = description
-//            do {
-//                try? backgroundContext.save()
-//
-//            } catch {
-//                print(error)
-//            }
-//        }
-//        reloadPosts()
-//    }
-
+    
     func deleteFavoritePost(favoritePost: FavoritePost){
         persistentContainer.viewContext.delete(favoritePost)
         saveContext()
         reloadPosts()
     }
+    
     func getFavoritePost(postAuthor: String? = nil) -> [FavoritePost] {
-        print(postAuthor)
         let fetchRequest = FavoritePost.fetchRequest()
         if let postAuthor, postAuthor != "" {
-          fetchRequest.predicate = NSPredicate(format: "postAuthor contains[c] %@ ", postAuthor)
+            fetchRequest.predicate = NSPredicate(format: "postAuthor contains[c] %@ ", postAuthor)
         }
-        
+        self.favoritesPosts = try! persistentContainer.viewContext.fetch(fetchRequest)
         return (try? persistentContainer.viewContext.fetch(fetchRequest)) ?? []
-        
     }
 }
 

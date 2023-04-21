@@ -12,7 +12,6 @@ final class MainCoordinator: Coordinator {
     
     var controller: UIViewController
     var children: [Coordinator] = []
-
     
     init(controller: UIViewController) {
         self.controller = controller
@@ -22,15 +21,14 @@ final class MainCoordinator: Coordinator {
         if controller is UINavigationController {
             let vc = MainTabBarController()
             vc.coordinator = self
-          
-    
+            
             let feedModel = FeedModel()
             let feedViewModel = FeedViewModel(model: feedModel)
             let feedCoordinator = FeedCoordinator(controller: controller)
             let feedVC =  FeedViewController(viewModel: feedViewModel, coordinator: feedCoordinator)
             feedVC.coordinator = feedCoordinator
             feedVC.tabBarItem.image = UIImage(systemName: "rectangle.on.rectangle")
-
+            
             let factory = MyLoginFactory()
             let loginVC = factory.loginViewController()
             loginVC.coordinator = ProfileCoordinator(controller: controller)
@@ -47,8 +45,7 @@ final class MainCoordinator: Coordinator {
                 return
             }
             print("user from MAIM COORDINATOR \(user)")
-
-
+            
             let favoritesVC = ProfileViewController(user: user)
             let navFavorite = UINavigationController(rootViewController: favoritesVC)
             favoritesVC.tabBarItem.title = "Favorites"
@@ -57,9 +54,8 @@ final class MainCoordinator: Coordinator {
             vc.viewControllers = [feedVC, loginVC,navFavorite]
             let nvc = controller as! UINavigationController
             nvc.pushViewController(vc, animated: false)
-
-       }
+            
+        }
     }
-   
 }
 

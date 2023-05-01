@@ -111,7 +111,7 @@ class FeedViewController: UIViewController {
             if result  == true {
                 label.text = word
                 label.textColor = .systemGreen
-                print("На логин  у пользователя ушло \(counter) секунд.")
+//                print("На логин  у пользователя ушло \(counter) секунд.")
             } else {
                 label.textColor = .red
             }
@@ -163,9 +163,9 @@ class FeedViewController: UIViewController {
     
     private func preconditionGuard(loaded: Bool) {
         precondition(loaded)
-        print("Precondition  - \(loaded)")
+//        print("Precondition  - \(loaded)")
         guard let view = self.viewIfLoaded else {return}
-        print("CAN USERS ENABLED WITH VIEW - \(view.isUserInteractionEnabled)")
+//        print("CAN USERS ENABLED WITH VIEW - \(view.isUserInteractionEnabled)")
         
     }
 }

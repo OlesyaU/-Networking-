@@ -8,13 +8,27 @@
 import UIKit
 import StorageService
 
+protocol FavoritePostDelegate {
+    func favoritePostTap(bool: Bool)
+}
+
+
 class PostTableViewCell: UITableViewCell {
     
-    private let image: UIImageView = {
+    private let coreDataManager = CoreDataManager.shared
+    var delegate: FavoritePostDelegate?
+    
+    private lazy var image: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         image.contentMode = .scaleAspectFit
         image.backgroundColor = .black
+        let gesture = UITapGestureRecognizer(target: self,
+                                             action: #selector(favoritePost))
+        image.isUserInteractionEnabled = true
+        image.isMultipleTouchEnabled = true
+        gesture.numberOfTapsRequired = 2
+        image.addGestureRecognizer(gesture)
         return image
     }()
     
@@ -103,4 +117,19 @@ class PostTableViewCell: UITableViewCell {
         viewsLabel.text = "Views: \(String(describing: post.views))"
     }
     
+    func configureFavorite(favoritePost: FavoritePost) {
+        image.image = UIImage(data: favoritePost.postImage!)
+        authorLabel.text = favoritePost.postAuthor
+        descriptionLabel.text = favoritePost.postDescription
+        viewsLabel.text = String("Views: \(favoritePost.views)")
+        likesLabel.text = String("Likes: \(favoritePost.likes)")
+    }
+    
+    @objc func favoritePost(){
+        print("Gesture in Post")
+        coreDataManager.isFavorite = { bool in
+            print(bool)
+            self.delegate?.favoritePostTap(bool: bool)
+        }
+    }
 }

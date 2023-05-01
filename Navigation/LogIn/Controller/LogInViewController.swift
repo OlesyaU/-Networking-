@@ -6,21 +6,27 @@
 //
 
 import UIKit
+//import FirebaseAuth
+import RealmSwift
+
 
 protocol LogInViewControllerDelegate: AnyObject {
-    func checkLogData(login: String, password: String) -> Bool
+//    func checkCredentials(login: String, password: String, completion: ((_ isSignUp: Bool,_ user: User, _ errorText: String)-> Void)?)
+    func signUp(login: String, password: String)
 }
 
+protocol CheckerServiceProtocol: AnyObject {
+//    func checkCredentials(login: String, password: String, completion: ((_ isSignUp: Bool,_ user: User, _ errorText: String)-> Void)?)
+    func signUp(login: String, password: String)
+}
 
 class LogInViewController: UIViewController {
-    
     private let nc = NotificationCenter.default
-    private var user = TestUserService()
     var delegate: LogInViewControllerDelegate?
     private let buttonClass = CustomButton()
-    private var result: Bool?
     var coordinator: ProfileCoordinator?
-    
+    let realm = try! Realm()
+    var user: User!
     
     private let scrollView: UIScrollView =  {
         let scroll = UIScrollView()
@@ -90,7 +96,7 @@ class LogInViewController: UIViewController {
         return textField
     }()
     
-    private lazy var logInButton: CustomButton = {
+     lazy var logInButton: CustomButton = {
         let button = CustomButton(title: "Log In", background: .white, titleColor: .white)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setBackgroundImage(UIImage(named:"blue_pixel"), for: .normal)
@@ -103,29 +109,47 @@ class LogInViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        navigationController?.navigationBar.isHidden = true
+    
         layout()
-        buttonTapped()
+        navigationController?.isNavigationBarHidden = true
+        let userFromProfCoord = ProfileCoordinator(controller: self).user
+        print("userFromProfCoord \(userFromProfCoord)")
+        //        смотреть файлы по этому пути через realmStudio!!!
+                print(realm.configuration.fileURL!)
     }
+   
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationController?.isNavigationBarHidden = true
         nc.addObserver(self, selector: #selector(keyboardShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         nc.addObserver(self, selector: #selector(keyboardHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         nameTextField.text = ""
         passwordTextField.text = ""
+        nameTextField.isEnabled = true
+        passwordTextField.isEnabled = true
+        nameTextField.placeholder = "Enter your email"
+        nameTextField.keyboardType = .emailAddress
+        passwordTextField.placeholder = "Enter your password 6 or more symbols"
+        logInButton.isEnabled = false
     }
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        logInButton.isEnabled = true
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         nc.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         nc.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+        nameTextField.isEnabled = false
+        passwordTextField.isEnabled = false
     }
     
     func getName() -> String {
-        nameTextField.text ?? "Имя из текстфилда"
+        nameTextField.text ?? ""
     }
     func getPassword() -> String {
-        passwordTextField.text ?? "Пароль из текстфилда"
+        passwordTextField.text ?? ""
     }
     
     private func layout() {
@@ -172,39 +196,18 @@ class LogInViewController: UIViewController {
         ])
     }
     
-    private func buttonTapped() {
-        buttonClass.buttonPressed = { [weak self] in
-            guard let self = self else { return }
-            self.logInButtonTapped(self.buttonClass)
-        }
-    }
-    
     @objc private func logInButtonTapped(_ sender: UIButton) {
+        
         let nameUser = getName()
         let passUser = getPassword()
-        
-        //        let profileVC = ProfileViewController(user: user.getUser(name: nameUser)!)
-        //        profileVC.nameFromLogin = { [weak self] in
-        //           nameUser
-        //  }
-        //      let nbhn =   user.getUser(name: nameUser)
-        //        print(nameUser)
-        
-        result = delegate?.checkLogData(login: nameUser, password: passUser)
-        coordinator?.checkResult = { [weak self] in
-            self!.result!
-        }
-        coordinator?.login = { [weak self] in
-            (self?.getName())!
-        }
-        coordinator?.controller = self
-        coordinator?.setUp()
-        
-        //        if ((delegate?.checkLogData(login: nameUser, password: passUser)) != nil) {
-        //            navigationController?.pushViewController(ProfileViewController(user: user, name: nameUser ), animated: true)
-        //        } else {
-        //            print("Incorrect data : login or password. Correct login : Вжик, correct paasword: Вжик")
-        //        }
+
+        delegate?.signUp(login: nameUser, password: passUser)
+
+        user = User(email: nameUser, password: passUser)
+        print("user from LoginVC  logButton  \(user)")
+        self.coordinator?.controller = self
+
+        coordinator?.present(.profile(user))
         
         switch sender.state {
             case .normal:
@@ -219,7 +222,7 @@ class LogInViewController: UIViewController {
                 break
         }
     }
-    
+  
     @objc private func keyboardShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             scrollView.contentInset.bottom = keyboardSize.height
@@ -234,6 +237,18 @@ class LogInViewController: UIViewController {
 }
 
 extension LogInViewController: UITextFieldDelegate {
+    
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let login = getName().count
+        let pass = getPassword().count
+        
+        let result = login > 0 && pass > 0
+        logInButton.isEnabled = result
+        
+        return true
+    }
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         view.endEditing(true)
         return true

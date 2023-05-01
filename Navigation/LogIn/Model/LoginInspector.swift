@@ -8,10 +8,16 @@
 import Foundation
 
 class LoginInspector: LogInViewControllerDelegate {
+
+    let checkerServise = CheckerService.shared
+   
+//    func checkCredentials(login: String, password: String, completion: ((_ isSignUp: Bool,_ user: User, _ errorText: String)-> Void)?)  {
+//        checkerServise.checkCredentials(login: login, password: password, completion: completion)
+//        print("LoginInspector - checkCredentials worked")
+//    }
     
-    let checker = Checker.shared
-    
-    func checkLogData(login: String, password: String) -> Bool{
-      return  checker.checkLogData(login: login , password: password) 
+    func signUp(login: String, password: String) {
+        checkerServise.signUp(login: login, password: password)
+        print("LoginInspector - signUp worked")
     }
 }

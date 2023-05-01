@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RealmSwift
+
 final class ProfileCoordinator: Coordinator {
     
     enum Presentation {
@@ -13,15 +15,17 @@ final class ProfileCoordinator: Coordinator {
         case photos
     }
     
-    private var user: User?
     private  let loginVC: LogInViewController
     private var profileNC: UINavigationController
-    private let service = TestUserService()
     var errors: VCErrors?
     var controller: UIViewController
     var children: [Coordinator]
-    var login: (()->String)?
-    var checkResult: (()->Bool)?
+    var user: User!
+    
+    var checkResult:(() -> Bool)?
+    var textError:(() -> String)?
+    var realm = try! Realm()
+    var users: Results<User>
     
     init(controller: UIViewController) {
         self.controller = controller
@@ -35,17 +39,35 @@ final class ProfileCoordinator: Coordinator {
         profileNC.tabBarItem = UITabBarItem(title: "Profile",
                                             image: UIImage(systemName: "person.crop.circle"),
                                             selectedImage: UIImage(systemName: "person.crop.circle.fill"))
+        users = try! realm.objects(User.self)
+        user = users.last
+        
+        print("User from coord \(user)")
+        if user != nil,  user.isLogin == true {
+            present(.profile(user))
+            
+        }
     }
     
-    func setUp()  {
-        user = service.getUser(name: login!())
-        guard let user = user else {return}
-        if checkResult!() {
+    func setUp(){
+        if user != nil, user.isLogin == true {
             present(.profile(user))
+            print("user from setUp \(user)")
         } else {
-            let aleart = UIAlertAction(title: "User not found", style: .destructive)
-            let aleartVC = UIAlertController(title: "WTF", message: "Strange thing", preferredStyle: .alert)
-            aleartVC.addAction(aleart)
+            let aleartVC = UIAlertController(title: "OOOOOPS", message: textError?() , preferredStyle: .alert)
+            let action1 = UIAlertAction(title: "Cancel", style: .cancel)
+            
+            switch textError?(){
+                case "":
+                    fallthrough
+                case "There is no user record corresponding to this identifier. The user may have been deleted.":
+                    let action2 = UIAlertAction(title: "Sign In", style: .destructive) {_ in
+                        self.loginVC.delegate?.signUp(login: self.loginVC.getName(), password: self.loginVC.getPassword())
+                    }
+                    aleartVC.addAction(action2)
+                default:
+                    aleartVC.addAction(action1)
+            }
             controller.present(aleartVC, animated: true)
         }
     }
@@ -55,10 +77,12 @@ final class ProfileCoordinator: Coordinator {
             case .profile(let user):
                 let profileVC = ProfileViewController(user: user)
                 profileVC.coordinator = self
+                profileVC.setContent = .allUserInfo
                 profileVC.nameFromLogin = {
-                    user.fullName
+                    user.fullName ?? "No name yet"
                 }
                 controller.navigationController?.pushViewController(profileVC, animated: true)
+                
             case .photos:
                 controller.navigationController?.pushViewController(PhotosViewController(), animated: true)
         }

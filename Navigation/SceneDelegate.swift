@@ -22,10 +22,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         mainCoordinator = MainCoordinator(controller: nav)
         mainCoordinator?.setUp()
         setupNavigationBarAppearance()
-        networkServiceStart()
+//        networkServiceStart()
         window = UIWindow(windowScene: windowScene)
         window?.rootViewController = nav
         window?.makeKeyAndVisible()
+     
     }
     
     private func setupNavigationBarAppearance(){

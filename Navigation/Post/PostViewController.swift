@@ -16,7 +16,8 @@ class PostViewController: UIViewController {
     }
    
     @objc private func barButtonPush(){
-        navigationController?.present(InfoViewController(), animated: true, completion: nil)
+       navigationController?.present(InfoViewController(), animated: true, completion: nil)
+//        navigationController?.pushViewController(InfoViewController(), animated: true)
     }
     
 }

@@ -88,6 +88,7 @@ class ProfileViewController: UIViewController {
         setContent = .favoritePosts
         coreDataManager.reloadPosts()
         tableView.reloadData()
+
     }
     
     private func layout() {

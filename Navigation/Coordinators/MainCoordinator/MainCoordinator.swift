@@ -36,9 +36,13 @@ final class MainCoordinator: Coordinator {
             loginVC.tabBarItem.title = "Profile"
             loginVC.tabBarController?.tabBar.isHidden = false
             vc.tabBar.isHidden = false
+           
+            let locationVC = LocationController()
+            locationVC.tabBarItem.title = "Location"
+            locationVC.tabBarItem.image = .init(systemName: "map")
             
             guard let user = loginVC.coordinator?.user  else   {
-                vc.viewControllers = [feedVC, loginVC]
+                vc.viewControllers = [feedVC, loginVC, locationVC]
                 let nvc = controller as! UINavigationController
                 nvc.pushViewController(vc, animated: false)
                 print("In MAIN COORDINATOR user is lost")
@@ -51,7 +55,7 @@ final class MainCoordinator: Coordinator {
             favoritesVC.tabBarItem.title = "Favorites"
             favoritesVC.tabBarItem.image = UIImage(systemName: "heart")
             favoritesVC.setContent = .favoritePosts
-            vc.viewControllers = [feedVC, loginVC,navFavorite]
+            vc.viewControllers = [feedVC, loginVC, navFavorite, locationVC]
             let nvc = controller as! UINavigationController
             nvc.pushViewController(vc, animated: false)
             

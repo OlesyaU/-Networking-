@@ -55,7 +55,7 @@ class ProfileHeaderView: UIView {
         label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         label.textColor = .black
         label.textAlignment = .left
-        label.text = "Кот Томас"
+//        label.text = "Кот Томас"
         label.numberOfLines = 1
         return label
     }()
@@ -65,7 +65,7 @@ class ProfileHeaderView: UIView {
         label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         label.textColor = .gray
         label.textAlignment = .left
-        label.text = "Тут будет статус"
+//        label.text = "Тут будет статус"
         label.numberOfLines = 1
         return label
     }()
@@ -79,7 +79,7 @@ class ProfileHeaderView: UIView {
         textField.layer.cornerRadius = 12
         textField.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         textField.textColor = .black
-        textField.placeholder = "Тут я пишу статус"
+        textField.placeholder = NSLocalizedString("Status will be here", comment: "")
         textField.allowsEditingTextAttributes = true
         textField.clearsOnBeginEditing = true
         textField.isUserInteractionEnabled = true
@@ -90,7 +90,7 @@ class ProfileHeaderView: UIView {
     } ()
     
     private lazy var showStatusButton: CustomButton = {
-        let button = CustomButton(title: "Show status", background: .systemBlue, titleColor: .white)
+        let button = CustomButton(title: NSLocalizedString("Show status", comment: ""), background: .systemBlue, titleColor: .white)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         button.layer.shadowOffset = CGSize(width: 4, height: 4)
         button.layer.shadowColor = CGColor(red: 0, green: 0, blue: 0, alpha: 1)
@@ -173,7 +173,7 @@ class ProfileHeaderView: UIView {
     
     @objc private func textFieldEditing(_ textfield: UITextField) {
         statusTextField.becomeFirstResponder()
-        showStatusButton.setTitle("Set status", for: .normal)
+        showStatusButton.setTitle(NSLocalizedString("Set status", comment: ""), for: .normal)
         statusText = statusTextField.text ?? "text is lost"
     }
     

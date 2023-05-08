@@ -36,7 +36,7 @@ final class ProfileCoordinator: Coordinator {
         
         // create tab bar with profile items
         profileNC = UINavigationController(rootViewController: loginVC)
-        profileNC.tabBarItem = UITabBarItem(title: "Profile",
+        profileNC.tabBarItem = UITabBarItem(title: NSLocalizedString("Profile", comment: "") ,
                                             image: UIImage(systemName: "person.crop.circle"),
                                             selectedImage: UIImage(systemName: "person.crop.circle.fill"))
         users = try! realm.objects(User.self)
@@ -56,7 +56,7 @@ final class ProfileCoordinator: Coordinator {
         } else {
             let aleartVC = UIAlertController(title: "OOOOOPS", message: textError?() , preferredStyle: .alert)
             let action1 = UIAlertAction(title: "Cancel", style: .cancel)
-            
+
             switch textError?(){
                 case "":
                     fallthrough
@@ -67,6 +67,7 @@ final class ProfileCoordinator: Coordinator {
                     aleartVC.addAction(action2)
                 default:
                     aleartVC.addAction(action1)
+//            Helper.showAleart(for: self.controller, with: "kjhgfdserty", action1Title: "LKJHGF", action2Title: "kuytr")
             }
             controller.present(aleartVC, animated: true)
         }

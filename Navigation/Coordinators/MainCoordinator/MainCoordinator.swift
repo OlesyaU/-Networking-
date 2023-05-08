@@ -33,12 +33,12 @@ final class MainCoordinator: Coordinator {
             let loginVC = factory.loginViewController()
             loginVC.coordinator = ProfileCoordinator(controller: controller)
             loginVC.tabBarItem.image = .init(systemName: "person")
-            loginVC.tabBarItem.title = "Profile"
+            loginVC.tabBarItem.title = NSLocalizedString("Profile", comment: "")
             loginVC.tabBarController?.tabBar.isHidden = false
             vc.tabBar.isHidden = false
            
             let locationVC = LocationController()
-            locationVC.tabBarItem.title = "Location"
+            locationVC.tabBarItem.title = NSLocalizedString("Location", comment: "")
             locationVC.tabBarItem.image = .init(systemName: "map")
             
             guard let user = loginVC.coordinator?.user  else   {
@@ -52,7 +52,7 @@ final class MainCoordinator: Coordinator {
             
             let favoritesVC = ProfileViewController(user: user)
             let navFavorite = UINavigationController(rootViewController: favoritesVC)
-            favoritesVC.tabBarItem.title = "Favorites"
+            favoritesVC.tabBarItem.title = NSLocalizedString("Favorites", comment: "")
             favoritesVC.tabBarItem.image = UIImage(systemName: "heart")
             favoritesVC.setContent = .favoritePosts
             vc.viewControllers = [feedVC, loginVC, navFavorite, locationVC]

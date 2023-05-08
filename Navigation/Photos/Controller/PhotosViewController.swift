@@ -30,8 +30,8 @@ class PhotosViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.isHidden = false
-        title = "Photo Gallery"
-        navigationController?.navigationBar.topItem?.backButtonTitle = "Back"
+        title = NSLocalizedString("Photo Gallery", comment: "")
+        navigationController?.navigationBar.topItem?.backButtonTitle = NSLocalizedString("Back", comment: "")
         layout()
         //                errorsHandle()
         //        filteringImage(images: photos)
@@ -116,10 +116,9 @@ extension PhotosViewController {
             })
             return .success(images)
         } else {
-            let aleart = UIAlertAction(title: "OK", style: .cancel)
-            let act = UIAlertController(title: "OOOOPS", message: "Sorrryyyy...no data, pictures does not loaded", preferredStyle: .alert)
-            act.addAction(aleart)
-            present(act, animated: true)
+            let titleForAction =  NSLocalizedString("Ok", comment: "")
+            let title = NSLocalizedString("No data for show", comment: "")
+            Helper.showAleart(for: self, with: title, action1Title: titleForAction, action2Title: nil)
             print("NO Data for show")
             return .failure(VCErrors.noData)
         }
@@ -132,10 +131,10 @@ extension PhotosViewController {
         catch let error as VCErrors {
             switch error {
                 case .noData:
-                    let aleart = UIAlertAction(title: "OK", style: .cancel)
-                    let act = UIAlertController(title: "OOOOPS", message: "Sorrryyyy...no data, pictures does not loaded", preferredStyle: .alert)
-                    act.addAction(aleart)
-                    present(act, animated: true)
+                    let titleForAction =  NSLocalizedString("Ok", comment: "")
+                    let title = NSLocalizedString("No data for show", comment: "")
+                    Helper.showAleart(for: self, with: title, action1Title: titleForAction, action2Title: nil)
+                    print("NO Data for show")
                 default:
                     print("default")
             }

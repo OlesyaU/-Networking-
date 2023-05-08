@@ -113,16 +113,18 @@ class PostTableViewCell: UITableViewCell {
         image.image = UIImage(named: post.image)
         authorLabel.text = post.author
         descriptionLabel.text = post.description
-        likesLabel.text = "Likes: \(String(describing: post.likes))"
-        viewsLabel.text = "Views: \(String(describing: post.views))"
+//        likesLabel.text = "Likes: \(String(describing: post.likes))"
+//        viewsLabel.text = "Views: \(String(describing: post.views))"
+        setLikesAndViews(post: post, favoritePost: nil)
     }
     
     func configureFavorite(favoritePost: FavoritePost) {
         image.image = UIImage(data: favoritePost.postImage!)
         authorLabel.text = favoritePost.postAuthor
         descriptionLabel.text = favoritePost.postDescription
-        viewsLabel.text = String("Views: \(favoritePost.views)")
-        likesLabel.text = String("Likes: \(favoritePost.likes)")
+//        viewsLabel.text = String("Views: \(favoritePost.views)")
+//        likesLabel.text = String("Likes: \(favoritePost.likes)")
+        setLikesAndViews(post: nil, favoritePost: favoritePost)
     }
     
     @objc func favoritePost(){
@@ -130,6 +132,17 @@ class PostTableViewCell: UITableViewCell {
         coreDataManager.isFavorite = { bool in
             print(bool)
             self.delegate?.favoritePostTap(bool: bool)
+        }
+    }
+    private func setLikesAndViews(post: Post?, favoritePost: FavoritePost?) {
+        let views = NSLocalizedString("any_views", comment: "")
+        let likes = NSLocalizedString("any_likes", comment: "")
+        if post != nil {
+            viewsLabel.text = String(format: views, post!.views)
+            likesLabel.text = String(format: likes, post!.likes)
+        } else {
+            likesLabel.text = String(format: likes, favoritePost!.likes)
+            viewsLabel.text = String(format: views, favoritePost!.views)
         }
     }
 }

@@ -1,0 +1,8 @@
+/* 
+  InfoPlist.strings
+  Navigation
+
+  Created by Олеся on 08.05.2023.
+  
+*/
+NSLocationWhenInUseUsageDescription = "Нам нужен доступ к вашей локации для построения маршрута(текст из InfoPlist.strings)";

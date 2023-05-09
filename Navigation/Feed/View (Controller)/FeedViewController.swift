@@ -54,7 +54,7 @@ class FeedViewController: UIViewController {
     }()
     
     private lazy var secondButton: CustomButton = {
-        let button = CustomButton(title: "Check", background: .black, titleColor: .systemYellow)
+        let button = CustomButton(title: NSLocalizedString("Log In", comment: "") , background: .black, titleColor: .systemYellow)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(buttonPush(_:)), for: .touchUpInside)
@@ -75,8 +75,8 @@ class FeedViewController: UIViewController {
         super.viewDidLoad()
         preconditionGuard(loaded: self.isViewLoaded)
         view.backgroundColor = .lightGray
-        title = "Feed"
-        navigationItem.title = "Feed"
+        title = NSLocalizedString("Feed", comment: "")
+        navigationItem.title = NSLocalizedString("Feed", comment: "") 
         view.addSubview(stackView)
         view.addSubview(label)
         stackViewLayout()
@@ -123,7 +123,7 @@ class FeedViewController: UIViewController {
     
     @objc private func actionTimer()  {
         counter += 1
-        label.text = "\(counter) секунд"
+        label.text = "\(counter) \(NSLocalizedString("seconds", comment: ""))"
         do{ try throwing(counter: counter)}
         catch VCErrors.forgotPas {
             print("CATCH VCErrors.forgotPas")

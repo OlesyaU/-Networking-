@@ -70,7 +70,7 @@ class LogInViewController: UIViewController {
         textField.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         textField.tintColor = UIColor.init(named: "ColorHEX")
         textField.textColor = .black
-        textField.placeholder = "Email or phone"
+        textField.placeholder = NSLocalizedString("Email or phone", comment: "") 
         textField.autocapitalizationType = .none
         textField.allowsEditingTextAttributes = true
         textField.clearsOnBeginEditing = true
@@ -87,7 +87,7 @@ class LogInViewController: UIViewController {
         textField.layer.borderWidth = 0.5
         textField.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         textField.textColor = .black
-        textField.placeholder = "Password"
+        textField.placeholder = NSLocalizedString("Password", comment: "")
         textField.isSecureTextEntry = true
         textField.clearsOnBeginEditing = true
         textField.isUserInteractionEnabled = true
@@ -97,7 +97,7 @@ class LogInViewController: UIViewController {
     }()
     
      lazy var logInButton: CustomButton = {
-        let button = CustomButton(title: "Log In", background: .white, titleColor: .white)
+        let button = CustomButton(title: NSLocalizedString("Log In", comment: ""), background: .white, titleColor: .white)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setBackgroundImage(UIImage(named:"blue_pixel"), for: .normal)
         button.clipsToBounds = true
@@ -128,9 +128,9 @@ class LogInViewController: UIViewController {
         passwordTextField.text = ""
         nameTextField.isEnabled = true
         passwordTextField.isEnabled = true
-        nameTextField.placeholder = "Enter your email"
+        nameTextField.placeholder = NSLocalizedString("Email or phone", comment: "")
         nameTextField.keyboardType = .emailAddress
-        passwordTextField.placeholder = "Enter your password 6 or more symbols"
+        passwordTextField.placeholder = NSLocalizedString("Password", comment: "")
         logInButton.isEnabled = false
     }
     func textFieldDidBeginEditing(_ textField: UITextField) {

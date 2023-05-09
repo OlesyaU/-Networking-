@@ -25,6 +25,7 @@ class LocationController: UIViewController, MKMapViewDelegate {
         ourPlace = getStartLocation()
         tapToClear()
         addGesturePin()
+       
     }
     
     private func getStartLocation()-> CLLocationCoordinate2D {
@@ -47,9 +48,7 @@ class LocationController: UIViewController, MKMapViewDelegate {
         var coord = mapView.convert(loc, toCoordinateFrom: mapView)
         tap.numberOfTapsRequired = 3
         mapView.addGestureRecognizer(tap)
-        
-        
-    }
+   }
     
     @objc func addAnnotation(gestureRecognizer:UIGestureRecognizer){
         var touchPoint = gestureRecognizer.location(in: mapView)
@@ -90,14 +89,13 @@ class LocationController: UIViewController, MKMapViewDelegate {
         mapView.mapType = .hybrid
         mapView.showsUserLocation = true
         mapView.isUserInteractionEnabled = true
-        //        mapView.annotationVisibleRect
         
         //            Задаем zoom (MKMapView не имеет данного свойства)
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
             let region = MKCoordinateRegion(center: self!.ourPlace, latitudinalMeters: 1000, longitudinalMeters: 1000)
             self?.mapView.setRegion(region, animated: true)
         }
-        mapView.showsTraffic = true
+       mapView.showsTraffic = true
     }
     
     private func checkUserLocationPermissions() {

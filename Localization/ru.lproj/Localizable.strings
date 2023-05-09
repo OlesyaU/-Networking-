@@ -1,0 +1,46 @@
+/* 
+  Localizable.strings
+  Navigation
+RU
+  Created by Олеся on 08.05.2023.
+  
+*/
+"Profile" = "Профиль";
+"Location" = "Локация";
+"Favorites" = "Понравившиеся";
+"Incorrect or NO data" = "Некорректные данные или их отсутствие, корректный пароль \"Password\"";
+"Ok" = "Хорошо";
+"Log In" = "Войти";
+"seconds" = "секунд";
+"Feed" = "Лента";
+"Photos" = "Фотографии";
+"Photo Gallery" = "Галерея фотографий";
+"Back" = "Назад";
+"No data for show" = "Нет данных для отображения";
+"Email or phone" = "Почта или телефон";
+"Password" = "Пароль";
+"Status will be here" = "Тут я пишу статус";
+"Show status" = "Показать статус";
+"Set status" = "Установить статус";
+"Back" = "Назад";
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+

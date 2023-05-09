@@ -30,4 +30,10 @@ final class Helper {
 }
 
 
+extension String {
+    var localized: String {
+        NSLocalizedString(self, comment: self)
+    }
+}
+
 

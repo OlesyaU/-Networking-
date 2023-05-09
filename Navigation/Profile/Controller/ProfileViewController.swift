@@ -71,10 +71,10 @@ class ProfileViewController: UIViewController {
 
         if coreDataManager.favoritesPosts.count > 0 {
             navigationItem.setRightBarButton(.init(title: "♥️", style: .plain, target: self, action: #selector(rightButtonTapped)), animated: true)
-            navigationItem.setLeftBarButton(.init(title: "Выйти", style: .plain, target: self, action: #selector(leftButtonTapped)), animated: true)
+            navigationItem.setLeftBarButton(.init(title: "Back".localized, style: .plain, target: self, action: #selector(leftButtonTapped)), animated: true)
         } else {
             navigationItem.rightBarButtonItem = nil
-            navigationItem.setLeftBarButton(.init(title: "Выйти", style: .plain, target: self, action: #selector(leftButtonTapped)), animated: true)
+            navigationItem.setLeftBarButton(.init(title: "Back".localized, style: .plain, target: self, action: #selector(leftButtonTapped)), animated: true)
         }
         tableView.reloadData()
     }

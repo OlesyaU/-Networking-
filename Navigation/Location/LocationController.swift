@@ -14,6 +14,14 @@ class LocationController: UIViewController, MKMapViewDelegate {
     private let locationManager = CLLocationManager()
     private var ourPlace = CLLocationCoordinate2D()
     private var endPlace = CLLocationCoordinate2D()
+    override var overrideUserInterfaceStyle: UIUserInterfaceStyle {
+        get {
+            return .dark
+        }
+        set {
+            
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +33,6 @@ class LocationController: UIViewController, MKMapViewDelegate {
         ourPlace = getStartLocation()
         tapToClear()
         addGesturePin()
-       
     }
     
     private func getStartLocation()-> CLLocationCoordinate2D {

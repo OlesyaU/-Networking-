@@ -41,6 +41,15 @@ class ProfileViewController: UIViewController {
         table.register(PhotosTableViewCell.self, forCellReuseIdentifier: PhotosTableViewCell.identifier)
         return table
     }()
+    override var overrideUserInterfaceStyle: UIUserInterfaceStyle {
+        get {
+            return .dark
+        }
+        set {
+            
+        }
+    }
+    
     
     init(user: UserService) {
         //#if DEBUG
@@ -58,13 +67,14 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-#if DEBUG
-        view.backgroundColor = .red
-#else
-        view.backgroundColor = .cyan
-#endif
+//#if DEBUG
+//        view.backgroundColor = .red
+//#else
+//        view.backgroundColor = .cyan
+//#endif
+        
         layout()
-    }
+ }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

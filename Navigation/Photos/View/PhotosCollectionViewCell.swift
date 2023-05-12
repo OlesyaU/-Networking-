@@ -18,6 +18,7 @@ class PhotosCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         layout()
+        setColor()
     }
     
     required init?(coder: NSCoder) {
@@ -37,4 +38,11 @@ class PhotosCollectionViewCell: UICollectionViewCell {
     func configure(photo: UIImage) {
         image.image = photo
     }
+}
+extension PhotosCollectionViewCell: SetThemeColorProtocol {
+    func setColor() {
+       backgroundColor = .themeColor
+    }
+    
+    
 }

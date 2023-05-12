@@ -11,12 +11,12 @@ import RealmSwift
 
 
 protocol LogInViewControllerDelegate: AnyObject {
-//    func checkCredentials(login: String, password: String, completion: ((_ isSignUp: Bool,_ user: User, _ errorText: String)-> Void)?)
+    //    func checkCredentials(login: String, password: String, completion: ((_ isSignUp: Bool,_ user: User, _ errorText: String)-> Void)?)
     func signUp(login: String, password: String)
 }
 
 protocol CheckerServiceProtocol: AnyObject {
-//    func checkCredentials(login: String, password: String, completion: ((_ isSignUp: Bool,_ user: User, _ errorText: String)-> Void)?)
+    //    func checkCredentials(login: String, password: String, completion: ((_ isSignUp: Bool,_ user: User, _ errorText: String)-> Void)?)
     func signUp(login: String, password: String)
 }
 
@@ -68,9 +68,9 @@ class LogInViewController: UIViewController {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.font = UIFont.systemFont(ofSize: 16, weight: .regular)
-        textField.tintColor = UIColor.init(named: "ColorHEX")
+        //        textField.tintColor = UIColor.init(named: "ColorHEX")
         textField.textColor = .black
-        textField.placeholder = NSLocalizedString("Email or phone", comment: "") 
+        textField.placeholder = NSLocalizedString("Email or phone", comment: "")
         textField.autocapitalizationType = .none
         textField.allowsEditingTextAttributes = true
         textField.clearsOnBeginEditing = true
@@ -96,28 +96,35 @@ class LogInViewController: UIViewController {
         return textField
     }()
     
-     lazy var logInButton: CustomButton = {
+    lazy var logInButton: CustomButton = {
         let button = CustomButton(title: NSLocalizedString("Log In", comment: ""), background: .white, titleColor: .white)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setBackgroundImage(UIImage(named:"blue_pixel"), for: .normal)
+        //        button.setBackgroundImage(UIImage(named:"blue_pixel"), for: .normal)
         button.clipsToBounds = true
         button.addTarget(self, action: #selector(logInButtonTapped(_:)), for: .touchUpInside)
         return button
     }()
     
-    
+    override var overrideUserInterfaceStyle: UIUserInterfaceStyle {
+        get {
+            return .dark
+        }
+        set {
+            
+        }
+    }
+  
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-    
+        setColor()
         layout()
         navigationController?.isNavigationBarHidden = true
         let userFromProfCoord = ProfileCoordinator(controller: self).user
         print("userFromProfCoord \(userFromProfCoord)")
         //        смотреть файлы по этому пути через realmStudio!!!
-                print(realm.configuration.fileURL!)
+        print(realm.configuration.fileURL!)
     }
-   
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -200,13 +207,13 @@ class LogInViewController: UIViewController {
         
         let nameUser = getName()
         let passUser = getPassword()
-
+        
         delegate?.signUp(login: nameUser, password: passUser)
-
+        
         user = User(email: nameUser, password: passUser)
         print("user from LoginVC  logButton  \(user)")
         self.coordinator?.controller = self
-
+        
         coordinator?.present(.profile(user))
         
         switch sender.state {
@@ -222,7 +229,7 @@ class LogInViewController: UIViewController {
                 break
         }
     }
-  
+    
     @objc private func keyboardShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             scrollView.contentInset.bottom = keyboardSize.height
@@ -255,3 +262,14 @@ extension LogInViewController: UITextFieldDelegate {
     }
 }
 
+extension LogInViewController: SetThemeColorProtocol {
+    
+    func setColor() {
+        view.backgroundColor = UIColor.themeColor
+        logInButton.backgroundColor = UIColor.buttonColor
+        logInButton.setTitleColor(UIColor.textColor, for: .normal)
+        [nameTextField, passwordTextField].forEach { field in
+            field.backgroundColor = UIColor.labelColor
+        }
+    }
+}

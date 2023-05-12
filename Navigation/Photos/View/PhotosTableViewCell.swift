@@ -46,6 +46,7 @@ class PhotosTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         layout()
+        setColor()
     }
     
     required init?(coder: NSCoder) {
@@ -99,7 +100,12 @@ class PhotosTableViewCell: UITableViewCell {
         ])
     }
 }
-
+extension PhotosTableViewCell: SetThemeColorProtocol {
+    func setColor() {
+        backgroundColor = .themeColor
+        label.textColor = .textColor
+    }
+}
 
 
 

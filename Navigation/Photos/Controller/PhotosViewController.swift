@@ -27,6 +27,15 @@ class PhotosViewController: UIViewController {
         return collection
     }()
     
+    override var overrideUserInterfaceStyle: UIUserInterfaceStyle {
+        get {
+            return .dark
+        }
+        set {
+            
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.isHidden = false
@@ -36,6 +45,7 @@ class PhotosViewController: UIViewController {
         //                errorsHandle()
         //        filteringImage(images: photos)
         filteringImage(images: testErrorPhotos)
+setColor()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -62,8 +72,8 @@ class PhotosViewController: UIViewController {
 extension PhotosViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         //        photos.count
-        //        photos2.count
-        testErrorPhotos.count
+                photos2.count
+//        testErrorPhotos.count
         //        в этот метод надо поставить тестовый(пустой) массив
     }
     
@@ -71,8 +81,8 @@ extension PhotosViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotosCollectionViewCell.identifier, for: indexPath) as? PhotosCollectionViewCell else {return UICollectionViewCell()}
         //        в этот метод надо поставить тестовый(пустой) массив
         //        let photo = photos[indexPath.item]
-        //        let photo = photos2[indexPath.item]
-        let photo = testErrorPhotos[indexPath.item]
+                let photo = photos2[indexPath.item]
+//        let photo = testErrorPhotos[indexPath.item]
         cell.configure(photo: photo)
         return cell
     }
@@ -101,8 +111,8 @@ extension PhotosViewController {
         let start = DispatchTime.now().uptimeNanoseconds
         if !images.isEmpty {
             processor.processImagesOnThread(sourceImages: images, filter: .sepia(intensity: 1.0), qos: .userInitiated, completion: { [weak self] images in
-                self?.photos = images
-                //                self?.photos2 = images
+//                self?.photos = images
+                                self?.photos2 = images
                 //                self?.testErrorPhotos = images
                     .compactMap{$0}
                     .map{UIImage(cgImage: $0)}
@@ -141,6 +151,17 @@ extension PhotosViewController {
         }
     }
 }
+
+extension PhotosViewController: SetThemeColorProtocol {
+    func setColor() {
+        collection.backgroundColor = .themeColor
+    }
+}
+
+
+
+
+
 //class PhotosViewController ошибка тут- пустой массив картинок
 // надо немного попереставлять массив и передавать его в метод private func filteringImage(images: [UIImage])...оставила первую реализацию с обработкой ошибок тоже, чтобы Вы посмотрели правильно ли он реализован(надеюсь что да 🤞)
 

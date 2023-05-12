@@ -103,6 +103,7 @@ class ProfileHeaderView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupConstraints()
+        setColor()
     }
     
     required init?(coder: NSCoder) {
@@ -207,4 +208,15 @@ class ProfileHeaderView: UIView {
             self.avatarImage.center.y = self.centerAvatar.y + self.avatarImage.bounds.height/2 + self.constraint
         })
     }
+}
+extension ProfileHeaderView: SetThemeColorProtocol {
+    func setColor() {
+        backgroundColor = .themeColor
+        showStatusButton.backgroundColor = .buttonColor
+        showStatusButton.tintColor = .textColor
+        statusTextField.tintColor = .textColor
+        statusTextField.backgroundColor = .labelColor
+    }
+    
+    
 }

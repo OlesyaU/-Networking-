@@ -15,11 +15,6 @@ protocol LogInViewControllerDelegate: AnyObject {
     func signUp(login: String, password: String)
 }
 
-protocol CheckerServiceProtocol: AnyObject {
-    //    func checkCredentials(login: String, password: String, completion: ((_ isSignUp: Bool,_ user: User, _ errorText: String)-> Void)?)
-    func signUp(login: String, password: String)
-}
-
 class LogInViewController: UIViewController {
     private let nc = NotificationCenter.default
     var delegate: LogInViewControllerDelegate?

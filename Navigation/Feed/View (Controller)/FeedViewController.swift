@@ -16,7 +16,7 @@ extension String {
     }
 }
 
-protocol FeedModelProtocol: AnyObject {
+public protocol FeedModelProtocol: AnyObject {
     func check(word: String) -> Bool
 }
 

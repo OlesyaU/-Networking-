@@ -9,7 +9,7 @@ import CoreData
 import UIKit
 import StorageService
 
-class CoreDataManager{
+class CoreDataManager {
     
     static let shared = CoreDataManager()
     var isFavorite: ((Bool)-> Void)?

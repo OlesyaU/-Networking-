@@ -455,10 +455,10 @@
 			children = (
 				76D0007127F956CA00E9077D /* UIview+ Extensions.swift */,
 				76EA9629285F738E00A9B5F8 /* Checker.swift */,
+				760AA7EC29C133D1006FDBBB /* CheckerService.swift */,
 				76EA96322869D92B00A9B5F8 /* CustomButton.swift */,
 				76FBF75E2870B1E1003D621F /* CustomTextField.swift */,
 				76CF553828FD6762002E056E /* WrongViewController.swift */,
-				760AA7EC29C133D1006FDBBB /* CheckerService.swift */,
 				76CABFC92A0E2A0D00C2DE48 /* Themes.swift */,
 				76CABFCB2A0E2A5800C2DE48 /* LocalizedHelper.swift */,
 			);

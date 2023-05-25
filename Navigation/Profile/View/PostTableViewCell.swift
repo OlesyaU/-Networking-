@@ -72,6 +72,7 @@ class PostTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         layout()
+        setColor()
     }
     
     required init?(coder: NSCoder) {
@@ -145,4 +146,16 @@ class PostTableViewCell: UITableViewCell {
             viewsLabel.text = String(format: views, favoritePost!.views)
         }
     }
+}
+extension PostTableViewCell: SetThemeColorProtocol {
+    func setColor() {
+        backgroundColor = .themeColor
+//        authorLabel.backgroundColor = .labelColor
+        authorLabel.textColor = .textColor
+        viewsLabel.textColor = .textColor
+        likesLabel.textColor = .textColor
+        descriptionLabel.textColor = .textColor
+    }
+    
+    
 }

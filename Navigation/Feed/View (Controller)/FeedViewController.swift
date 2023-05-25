@@ -16,7 +16,7 @@ extension String {
     }
 }
 
-protocol FeedModelProtocol: AnyObject {
+public protocol FeedModelProtocol: AnyObject {
     func check(word: String) -> Bool
 }
 
@@ -60,6 +60,14 @@ class FeedViewController: UIViewController {
         button.addTarget(self, action: #selector(buttonPush(_:)), for: .touchUpInside)
         return button
     }()
+    override var overrideUserInterfaceStyle: UIUserInterfaceStyle{
+        get {
+            return .dark
+        }
+        set {
+            
+        }
+    }
     
     init(viewModel: FeedViewModel, coordinator: FeedCoordinator){
         self.viewModel = viewModel
@@ -82,6 +90,7 @@ class FeedViewController: UIViewController {
         stackViewLayout()
         viewModel.changeState(action: .viewIsReady)
         getTimer()
+        setColor()
     }
     
     //        override func viewWillAppear(_ animated: Bool) {
@@ -167,6 +176,19 @@ class FeedViewController: UIViewController {
         guard let view = self.viewIfLoaded else {return}
 //        print("CAN USERS ENABLED WITH VIEW - \(view.isUserInteractionEnabled)")
         
+    }
+}
+
+
+extension FeedViewController:SetThemeColorProtocol {
+    func setColor() {
+        view.backgroundColor = .themeColor
+        secondButton.backgroundColor = .buttonColor
+        secondButton.tintColor = .textColor
+        label.textColor = .textColor
+        label.backgroundColor = .labelColor
+        textField.backgroundColor = .labelColor
+        textField.textColor = .textColor
     }
 }
 

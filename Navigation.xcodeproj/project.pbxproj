@@ -1119,6 +1119,7 @@
 				DEVELOPMENT_TEAM = VD9W7NWT69;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Navigation/Info.plist;
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "To access user data";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need access to your location for create your route (the text fron target info.plist)";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -1154,6 +1155,7 @@
 				DEVELOPMENT_TEAM = VD9W7NWT69;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Navigation/Info.plist;
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "To access user data";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need access to your location for create your route (the text fron target info.plist)";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;

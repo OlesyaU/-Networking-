@@ -166,6 +166,7 @@
 		76EA962D2860B8CC00A9B5F8 /* LoginFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFactory.swift; sourceTree = "<group>"; };
 		76EA96322869D92B00A9B5F8 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		76EB4AFC27F6EE9400107A11 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
+		76EC547B2A25495C00C8AAE8 /* TEST FILE.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TEST FILE.swift"; sourceTree = "<group>"; };
 		76F008F229162EEA004C4FCA /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
 		76F7BCEC2A0944960080015A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		76F7BCEE2A09449B0080015A /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -234,6 +235,7 @@
 		7607E4B627D9FAB1005D58DF = {
 			isa = PBXGroup;
 			children = (
+				76EC547B2A25495C00C8AAE8 /* TEST FILE.swift */,
 				76F7BCEF2A0944CF0080015A /* Localization */,
 				7607E4C127D9FAB1005D58DF /* Navigation */,
 				762C885F2844E13500AFCC07 /* StorageService.framework */,

@@ -11,4 +11,4 @@ import Foundation
 //И еще: при переходе в профиль пропадает tab bar и нельзя посмотреть ни Feed ни Favorites.
 
 //Test
-//Test 30
+//Test 30 -31

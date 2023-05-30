@@ -2531,6 +2531,7 @@
 		BFDFE7DC352907FC980B868725387E98 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1300;
 				LastUpgradeCheck = 1300;
 			};
@@ -3146,7 +3147,10 @@
 		};
 		28315A7C6FF72E72E310DE87D4D757CC /* Release */ = {
 			isa = XCBuildConfiguration;
+<<<<<<< HEAD
 			baseConfigurationReference = E781DD2D3BABBC96E101F9D5C028E2DE /* FirebaseAppCheckInterop.release.xcconfig */;
+=======
+>>>>>>> 2112d1caa7987007ecffef74e12b99d279a637e8
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -3693,7 +3697,10 @@
 		};
 		C488B9303928724EC64EA29FACD1DC0E /* Debug */ = {
 			isa = XCBuildConfiguration;
+<<<<<<< HEAD
 			baseConfigurationReference = EFCC6B1E06E617E1C61C84E7E722EA36 /* FirebaseAppCheckInterop.debug.xcconfig */;
+=======
+>>>>>>> 2112d1caa7987007ecffef74e12b99d279a637e8
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";

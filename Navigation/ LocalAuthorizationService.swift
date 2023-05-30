@@ -10,5 +10,7 @@ import LocalAuthentication
 
 
 final class LocalAuthorizationService {
-
+    func authorizeIfPossible(_ authorizationFinished: @escaping (Bool) -> Void){
+        
+    }
 }

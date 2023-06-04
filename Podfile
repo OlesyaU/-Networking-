@@ -11,9 +11,9 @@ target 'Navigation' do
 #, '~> 10.6'
   pod 'SnapKit'
 
- #pod 'Firebase'
- pod 'FirebaseCore'
- pod 'FirebaseAuth'
+ #pod 'Firebase', '~> 10.6'
+ pod 'FirebaseCore', '~> 10.6'
+ pod 'FirebaseAuth', '~> 10.6'
 
 end
 
